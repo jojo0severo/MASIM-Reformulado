@@ -17,12 +17,16 @@ from flask import Flask, request, jsonify
 from communication.controllers.controller import Controller
 from communication.helpers import json_formatter
 from communication.helpers.logger import Logger
+from simulation_engine.json_formatter import JsonFormatter
 
-base_url, api_port, simulation_port, monitor_port, step_time, first_step_time, method, log, social_assets_timeout, secret, agents_amount = sys.argv[1:]
+base_url, port, monitor_port, step_time, first_step_time, method, log, social_assets_timeout, secret, config_path, load_sim, write_sim, agents_amount = sys.argv[1:]
+load_sim_bool = load_sim.lower() == 'true'
+write_sim_bool = write_sim.lower() == 'true'
 
 app = Flask(__name__)
 socket = SocketIO(app=app)
 
+formatter = JsonFormatter(config_path, load_sim_bool, write_sim_bool)
 controller = Controller(agents_amount, first_step_time, secret)
 every_agent_registered = Queue()
 one_agent_registered_queue = Queue()
@@ -42,8 +46,8 @@ def sim_config():
     """Return the bases information of the simulator.
     """
 
-    simulation_url = f'http://{base_url}:{simulation_port}'
-    api_url = f'http://{base_url}:{api_port}'
+    simulation_url = f'http://{base_url}:{port}'
+    api_url = f'http://{base_url}:{port}'
 
     response = dict(
         simulation_url=simulation_url,
@@ -129,10 +133,10 @@ def first_step_time_controller(ready_queue):
         pass
 
     if not agents_connected:
-        requests.post(f'http://{base_url}:{api_port}/start_connections', json={'secret': secret, 'back': 1})
+        requests.post(f'http://{base_url}:{port}/start_connections', json={'secret': secret, 'back': 1})
 
     else:
-        requests.get(f'http://{base_url}:{api_port}/start_step_cycle', json={'secret': secret})
+        requests.get(f'http://{base_url}:{port}/start_step_cycle', json={'secret': secret})
 
     os.kill(os.getpid(), signal.SIGTERM)
 
@@ -144,7 +148,7 @@ def first_step_button_controller():
     Logger.normal('When you are ready press "Enter"')
     sys.stdin.read(1)
 
-    requests.get(f'http://{base_url}:{api_port}/start_step_cycle', json=secret)
+    requests.get(f'http://{base_url}:{port}/start_step_cycle', json=secret)
 
 
 @app.route('/start_step_cycle', methods=['GET'])
@@ -161,7 +165,7 @@ def start_step_cycle():
 
     controller.finish_connection_timer()
 
-    sim_response = requests.post(f'http://{base_url}:{simulation_port}/start', json={'secret': secret}).json()
+    sim_response = formatter.start()
 
     notify_monitor(initial_percepts_event, sim_response)
     notify_monitor(percepts_event, sim_response)
@@ -234,8 +238,7 @@ def register_agent(msg):
             if not registering_agent:
                 main_token = message[0]
                 token = message[1]
-                sim_response = requests.post(f'http://{base_url}:{simulation_port}/register_asset',
-                                             json={'main_token': main_token, 'token': token, 'secret': secret}).json()
+                sim_response = formatter.connect_social_asset(main_token, token)
 
                 if sim_response['status'] == 1:
                     Logger.normal('Social asset socket connected.')
@@ -256,8 +259,7 @@ def register_agent(msg):
                     response['status'] = sim_response['status']
                     response['message'] = sim_response['message']
             else:
-                sim_response = requests.post(f'http://{base_url}:{simulation_port}/register_agent',
-                                             json={'token': message, 'secret': secret}).json()
+                sim_response = formatter.connect_agent(message)
 
                 if sim_response['status'] == 1:
                     Logger.normal('Agent socket connected.')
@@ -318,7 +320,7 @@ def finish_step():
         tokens_actions_list = [*controller.manager.get_actions('agent'), *controller.manager.get_actions('social_asset')]
 
         Logger.normal('Send the actions for the simulation.')
-        sim_response = requests.post(f'http://{base_url}:{simulation_port}/do_actions', json={'actions': tokens_actions_list, 'secret': secret}).json()
+        sim_response = formatter.do_step(tokens_actions_list)
         Logger.normal('Receive the actions results from the simulation.')
         controller.manager.clear_workers()
 
@@ -326,13 +328,17 @@ def finish_step():
             Logger.critical('An internal error occurred. Shutting down...')
             notify_monitor(error_event, {'message': 'An internal error occurred. Shutting down...'})
 
-            requests.get(f'http://{base_url}:{simulation_port}/terminate', json={'secret': secret, Logger.TAG_NORMAL: True})
             multiprocessing.Process(target=auto_destruction, daemon=True).start()
 
         if sim_response['message'] == 'Simulation finished.':
             Logger.normal('End of the simulation, preparer to restart.')
 
-            sim_response = requests.put(f'http://{base_url}:{simulation_port}/restart', json={'secret': secret}).json()
+            can_restart = formatter.log()
+
+            if can_restart['status'] == 1:
+                sim_response = formatter.restart()
+            else:
+                sim_response = formatter.match_report()
 
             notify_monitor(end_event, sim_response['report'])
             notify_actors(end_event, sim_response['report'])
@@ -340,7 +346,7 @@ def finish_step():
             if sim_response['status'] == 0:
                 Logger.normal('No more map to run, finishing the simulation...')
 
-                sim_response = requests.get(f'http://{base_url}:{simulation_port}/terminate', json={'secret': secret, 'api': True}).json()
+                sim_response = formatter.simulation_report()
 
                 notify_monitor(bye_event, sim_response)
                 notify_actors(bye_event, sim_response)
@@ -391,12 +397,11 @@ def handle_response():
 
     tokens = controller.get_social_assets_tokens()
 
-    sim_response = requests.post(f'http://{base_url}:{simulation_port}/finish_social_asset_connections',
-                                 json={'tokens': tokens, 'secret': secret}).json()
+    sim_response = formatter.finish_social_asset_connections(tokens)
 
     response = controller.format_actions_result(sim_response)
     notify_actors(percepts_event, response)
-    controller.finish_asset_connections()
+    controller.finish_assets_connections()
 
     multiprocessing.Process(target=step_controller, args=(actions_queue, 1), daemon=True).start()
 
@@ -423,9 +428,9 @@ def step_controller(ready_queue, status):
 
     try:
         if status == 2:
-            requests.get(f'http://{base_url}:{api_port}/handle_response', json={'secret': secret})
+            requests.get(f'http://{base_url}:{port}/handle_response', json={'secret': secret})
         else:
-            requests.get(f'http://{base_url}:{api_port}/finish_step', json={'secret': secret})
+            requests.get(f'http://{base_url}:{port}/finish_step', json={'secret': secret})
 
     except requests.exceptions.ConnectionError:
         pass
@@ -477,8 +482,7 @@ def disconnect_registered_agent(msg):
 
     if status == 1:
         try:
-            sim_response = requests.put(f'http://{base_url}:{simulation_port}/delete_agent',
-                                        json={'token': message, 'secret': secret}).json()
+            sim_response = formatter.disconnect_agent(message)
 
             if sim_response['status'] == 1:
                 response['status'] = 1
@@ -511,8 +515,7 @@ def disconnect_registered_asset(msg):
 
     if status == 1:
         try:
-            sim_response = requests.put(f'http://{base_url}:{simulation_port}/delete_asset',
-                                        json={'token': message, 'secret': secret}).json()
+            sim_response = formatter.disconnect_social_asset(message)
 
             if sim_response['status'] == 1:
                 response['status'] = 1
@@ -627,9 +630,7 @@ def calculate_route():
         status, message = controller.check_service_request(request)
 
         if status == 1:
-            # Can be add more types of services
-            sim_response = requests.get(f'http://{base_url}:{simulation_port}/calculate_route',
-                                        json={'parameters': request.get_json(force=True)['parameters'], 'secret': secret}).json()
+            sim_response = formatter.calculate_route(request.get_json(force=True)['parameters'])
 
             if sim_response['status'] == 1:
                 response['status'] = 1
@@ -671,7 +672,7 @@ def auto_destruction():
 
     time.sleep(1)
     try:
-        requests.get(f'http://{base_url}:{api_port}/terminate', json={'secret': secret, 'back': 1})
+        requests.get(f'http://{base_url}:{port}/terminate', json={'secret': secret, 'back': 1})
     except requests.exceptions.ConnectionError:
         pass
 
@@ -681,5 +682,5 @@ def auto_destruction():
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = secret
     app.config['JSON_SORT_KEYS'] = False
-    Logger.normal(f'API: Serving on http://{base_url}:{api_port}')
-    socket.run(app=app, host=base_url, port=api_port)
+    Logger.normal(f'API: Serving on http://{base_url}:{port}')
+    socket.run(app=app, host=base_url, port=port)

@@ -90,16 +90,14 @@ class Starter:
             json_file = json.load(configuration_file)
             agents_amount = sum([json_file['agents'][role]['amount'] for role in json_file['agents']])
 
-        simulation_arguments = self.parser.get_simulation_arguments()
-
         api_arguments = self.parser.get_api_arguments()
         api_arguments.append(agents_amount)
 
         monitor_arguments = self.parser.get_monitor_arguments()
 
-        return api_arguments, simulation_arguments, monitor_arguments, self.parser.get_argument('pyv')
+        return api_arguments, monitor_arguments, self.parser.get_argument('pyv')
 
-    def start_processes(self, api_arguments, simulation_arguments, monitor_arguments, python_version):
+    def start_processes(self, api_arguments, monitor_arguments, python_version):
         """Start the process that will run the API and the other process that will run the Simulation.
 
         Note that this method only returns when the processes end."""
@@ -108,27 +106,15 @@ class Starter:
         api_process_arguments = (api_path, api_arguments, self.env_handler.venv_path, python_version)
         api_process = Process(target=self.start_api, args=api_process_arguments, daemon=True)
 
-        simulation_path = str((self.root / 'execution' / 'simulation.py').absolute())
-        simulation_process_arguments = (simulation_path, simulation_arguments, self.env_handler.venv_path, python_version)
-        simulation_process = Process(target=self.start_simulation, args=simulation_process_arguments, daemon=True)
-
         monitor_path = str((self.root / 'execution' / 'monitor.py').absolute())
         monitor_process_arguments = (monitor_path, monitor_arguments, self.env_handler.venv_path, python_version)
         monitor_process = Process(target=self.start_monitor, args=monitor_process_arguments, daemon=True)
 
         api_process.start()
-        simulation_process.start()
         monitor_process.start()
 
         api_process.join()
-        simulation_process.join()
         monitor_process.join()
-
-    @staticmethod
-    def start_simulation(module_path, simulation_arguments, venv_path, python_version):
-        """Start the Simulation by command line."""
-
-        subprocess.call([f'{str(venv_path)}python{python_version}', module_path, *map(str, simulation_arguments)])
 
     @staticmethod
     def start_api(module_path, api_arguments, venv_path, python_version):

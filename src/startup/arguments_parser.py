@@ -19,8 +19,7 @@ class Parser:
 
         self.parser.add_argument('-conf', required=True, type=str)
         self.parser.add_argument('-url', required=False, type=str, default='127.0.0.1')
-        self.parser.add_argument('-sp', required=False, type=str, default='8910')
-        self.parser.add_argument('-ap', required=False, type=str, default='12345')
+        self.parser.add_argument('-p', required=False, type=str, default='12345')
         self.parser.add_argument('-pyv', required=False, type=str, default='')
         self.parser.add_argument('-g', required=False, type=bool, default=False)
         self.parser.add_argument('-step_t', required=False, type=int, default=5)
@@ -51,23 +50,14 @@ class Parser:
         if args['url'] != 'localhost' and re.findall('[a-zA-Z]+', args['url']) and not re.findall('[a-zA-Z_-]+?\.[a-zA-Z]{2,4}', args['url']):
             return 0, 'Invalid URL. If URL is not localhost, than it must have at least ".com" after the name.'
 
-        if re.findall('\D', args['sp']):
+        if re.findall('\D', args['p']):
             return 0, 'Simulation port must be made of numbers only.'
 
-        if int(args['sp']) < 1024:
+        if int(args['p']) < 1024:
             return 0, 'Simulation port can not be under 1024 (system only).'
 
-        if int(args['sp']) > 65535:
+        if int(args['p']) > 65535:
             return 0, 'Simulation port invalid.'
-
-        if re.findall('\D', args['ap']):
-            return 0, 'API port must be made of numbers only.'
-
-        if int(args['ap']) < 1024:
-            return 0, 'API port can not be under 1024 (system only).'
-
-        if int(args['ap']) > 65535:
-            return 0, 'API port invalid.'
 
         if re.findall('\d', args['pyv']) and int(args['pyv']) != 3:
             return 0, 'Invalid python version. The system accepts either "" or "3".'
@@ -136,24 +126,7 @@ class Parser:
         if args.url == 'localhost':
             args.url = '127.0.0.1'
 
-        return [args.url, args.mp, args.ap, args.record, args.conf, secret]
-
-    def get_simulation_arguments(self):
-        """Return all the arguments necessary for the Simulation.
-
-        :returns list: List of arguments"""
-
-        args = self.parser.parse_args()
-
-        if not args.secret:
-            secret = self.secret
-        else:
-            secret = args.secret
-
-        if args.url == 'localhost':
-            args.url = '127.0.0.1'
-
-        return [args.conf, args.url, args.sp, args.ap, args.log, args.load_sim, args.write_sim, secret]
+        return [args.url, args.mp, args.p, args.record, args.conf, secret]
 
     def get_api_arguments(self):
         """Return all the arguments necessary for the API.
@@ -170,7 +143,8 @@ class Parser:
         if args.url == 'localhost':
             args.url = '127.0.0.1'
 
-        return [args.url, args.ap, args.sp, args.mp, args.step_t, args.first_t, args.mtd, args.log, args.sa_timeout, secret]
+        return [args.url, args.p, args.mp, args.step_t, args.first_t, args.mtd, args.log, args.sa_timeout,
+                secret, args.conf, args.load_sim, args.write_sim]
 
     def get_arguments(self):
         """Return all the arguments.
