@@ -14,11 +14,13 @@ if len(arguments) == 3:
     replay, base_url, monitor_port = arguments
     replay_mode = True
 else:
-    base_url, monitor_port, api_port, record, config, secret = sys.argv[1:]
+    base_url, monitor_port, api_port, record, config, secret = arguments
     replay_mode = False
 
-app = Flask(__name__, template_folder='monitor_engine/graphic_interface/templates',
+app = Flask(__name__,
+            template_folder='monitor_engine/graphic_interface/templates',
             static_folder='monitor_engine/graphic_interface/static')
+
 api = Api(app)
 
 

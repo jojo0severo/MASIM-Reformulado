@@ -1,7 +1,6 @@
 import jwt
 import json
 import time
-import traceback
 from communication.controllers.manager import Manager
 from communication.helpers.asset_request_manager import AssetRequestManager
 
