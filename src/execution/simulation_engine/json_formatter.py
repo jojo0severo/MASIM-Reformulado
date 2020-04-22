@@ -2,7 +2,6 @@ import os
 import re
 import json
 import pathlib
-import traceback
 from simulation_engine.copycat import CopyCat
 from simulation_engine.simulation_helpers.logger import Logger
 

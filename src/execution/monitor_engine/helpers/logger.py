@@ -7,7 +7,7 @@ class Logger:
     TAG_DISCONNECT = 'DISCONNECT'
     TAG_MESSAGE = 'MESSAGE'
     TAG_LOG = 'LOG'
-    TAG_MONITOR = 'MONITOR'
+    TAG_SERVER = 'SERVER'
 
     def __init__(self):
         if Logger.__instance is not None:
@@ -24,28 +24,28 @@ class Logger:
 
     @staticmethod
     def normal(message):
-        print(f'[ {Logger.TAG_MONITOR} ][ {Logger.TAG_NORMAL} ] ## {message}')
+        print(f'[ {Logger.TAG_SERVER} ][ {Logger.TAG_NORMAL} ] ## {message}')
 
     @staticmethod
     def error(message):
-        print(f'[ {Logger.TAG_MONITOR} ][ {Logger.TAG_ERROR} ] ## {message}')
+        print(f'[ {Logger.TAG_SERVER} ][ {Logger.TAG_ERROR} ] ## {message}')
 
     @staticmethod
     def critical(message):
-        print(f'[ {Logger.TAG_MONITOR} ][ {Logger.TAG_CRITICAL} ] ## {message}')
+        print(f'[ {Logger.TAG_SERVER} ][ {Logger.TAG_CRITICAL} ] ## {message}')
 
     @staticmethod
     def connect(message):
-        print(f'[ {Logger.TAG_MONITOR} ][ {Logger.TAG_CONNECT} ] ## {message}')
+        print(f'[ {Logger.TAG_SERVER} ][ {Logger.TAG_CONNECT} ] ## {message}')
 
     @staticmethod
     def disconnect(message):
-        print(f'[ {Logger.TAG_MONITOR} ][ {Logger.TAG_DISCONNECT} ] ## {message}')
+        print(f'[ {Logger.TAG_SERVER} ][ {Logger.TAG_DISCONNECT} ] ## {message}')
 
     @staticmethod
     def message(message):
-        print(f'[ {Logger.TAG_MONITOR} ][ {Logger.TAG_MESSAGE} ] ## {message}')
+        print(f'[ {Logger.TAG_SERVER} ][ {Logger.TAG_MESSAGE} ] ## {message}')
 
     @staticmethod
     def log(message):
-        print(f'[ {Logger.TAG_MONITOR} ][ {Logger.TAG_LOG} ] ## {message}')
+        print(f'[ {Logger.TAG_SERVER} ][ {Logger.TAG_LOG} ] ## {message}')

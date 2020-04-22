@@ -2,7 +2,6 @@ import json
 import os
 import time
 from datetime import date
-
 from flask import request
 from flask_restful import Resource, abort
 from monitor_engine.controllers.monitor_manager import MonitorManager
