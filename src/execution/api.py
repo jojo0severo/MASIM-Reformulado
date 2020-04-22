@@ -13,19 +13,32 @@ import requests
 import multiprocessing
 from multiprocessing import Queue
 from flask_socketio import SocketIO
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
+from flask_restful import Api
 from communication.controllers.controller import Controller
 from communication.helpers import json_formatter
 from communication.helpers.logger import Logger
 from simulation_engine.json_formatter import JsonFormatter
+from monitor_engine.helpers.logger import Logger
+from monitor_engine.controllers.monitor_manager import MonitorManager
+from monitor_engine.resources.manager import SimulationManager, MatchInfoManager, MatchStepManager, record_simulation
 
-base_url, port, monitor_port, step_time, first_step_time, method, log, social_assets_timeout, secret, config_path, load_sim, write_sim, agents_amount = sys.argv[1:]
+(base_url, port, step_time, first_step_time, method, log, social_assets_timeout, secret, config_path,
+ load_sim, write_sim, replay, record, agents_amount) = sys.argv[1:]
+
 load_sim_bool = load_sim.lower() == 'true'
 write_sim_bool = write_sim.lower() == 'true'
+replay = replay.lower() == 'true'
+record = record.lower() == 'true'
 
-app = Flask(__name__)
-socket = SocketIO(app=app)
+app = Flask(__name__,
+            template_folder='monitor_engine/graphic_interface/templates',
+            static_folder='monitor_engine/graphic_interface/static')
 
+api = Api(app)
+socket = SocketIO(app)
+
+monitor_manager = MonitorManager()
 formatter = JsonFormatter(config_path, load_sim_bool, write_sim_bool)
 controller = Controller(agents_amount, first_step_time, secret)
 every_agent_registered = Queue()
@@ -41,26 +54,9 @@ bye_event = 'bye'
 error_event = 'error'
 
 
-@app.route('/sim_config', methods=['GET'])
-def sim_config():
-    """Return the bases information of the simulator.
-    """
-
-    simulation_url = f'http://{base_url}:{port}'
-    api_url = f'http://{base_url}:{port}'
-
-    response = dict(
-        simulation_url=simulation_url,
-        api_url=api_url,
-        max_agents=agents_amount,
-        first_step_time=first_step_time,
-        step_time=step_time,
-        social_asset_timeout=social_assets_timeout
-    )
-
-    Logger.normal('Sending simulation config to GUI.')
-
-    return jsonify(response)
+@app.route('/')
+def monitor():
+    return render_template('index.html')
 
 
 @app.route('/start_connections', methods=['POST'])
@@ -98,13 +94,15 @@ def start_connections():
             controller.set_started()
 
             if method == 'time':
-                multiprocessing.Process(target=first_step_time_controller, args=(every_agent_registered,), daemon=True).start()
+                multiprocessing.Process(target=first_step_time_controller, args=(every_agent_registered,),
+                                        daemon=True).start()
 
             else:
                 multiprocessing.Process(target=first_step_button_controller, daemon=True).start()
 
         else:
-            multiprocessing.Process(target=first_step_time_controller, args=(one_agent_registered_queue,), daemon=True).start()
+            multiprocessing.Process(target=first_step_time_controller, args=(one_agent_registered_queue,),
+                                    daemon=True).start()
 
         controller.start_timer()
 
@@ -317,7 +315,8 @@ def finish_step():
 
     try:
         controller.set_processing_actions()
-        tokens_actions_list = [*controller.manager.get_actions('agent'), *controller.manager.get_actions('social_asset')]
+        tokens_actions_list = [*controller.manager.get_actions('agent'),
+                               *controller.manager.get_actions('social_asset')]
 
         Logger.normal('Send the actions for the simulation.')
         sim_response = formatter.do_step(tokens_actions_list)
@@ -545,39 +544,35 @@ def send_initial_percepts(token, info):
 
 
 def notify_monitor(event, response):
-    """ Update data into the monitor."""
+    """ Update data in the monitor."""
 
-    Logger.normal('Update monitor.')
-
-    url = f'http://{base_url}:{monitor_port}/simulator'
+    Logger.normal('Updating monitor.')
 
     if event == initial_percepts_event:
         info = json_formatter.initial_percepts_monitor_format(response)
-        match = controller.get_current_match()
-        url = f'{url}/match/{match}/info/map'
+        monitor_manager.add_match(info)
 
     elif event == percepts_event:
         info = json_formatter.percepts_monitor_format(response)
         match = controller.get_current_match()
-        url = f'{url}/match/{match}/step'
+        if monitor_manager.check_match_id(match):
+            monitor_manager.add_match_step(match, info)
 
     elif event == end_event:
         info = json_formatter.end_monitor_format(response)
         match = controller.get_current_match()
-        url = f'{url}/match/{match}/info/report'
+        monitor_manager.set_match_report(match, info)
 
     elif event == bye_event:
         info = json_formatter.end_monitor_format(response)
-        url = f'{url}/info/report'
+        monitor_manager.set_sim_report(info)
+
+        if record:
+            record_simulation()
 
     else:
         Logger.error('Event type in "notify monitor" not found.')
         return
-
-    monitor_response = requests.post(url, json=info)
-
-    if not monitor_response:
-        Logger.error('Error sending data to monitor.')
 
 
 def notify_actors(event, response):
@@ -590,7 +585,8 @@ def notify_actors(event, response):
 
     Logger.normal('Notifying the agents.')
 
-    tokens = [*controller.manager.agents_sockets_manager.get_tokens(), *controller.manager.assets_sockets_manager.get_tokens()]
+    tokens = [*controller.manager.agents_sockets_manager.get_tokens(),
+              *controller.manager.assets_sockets_manager.get_tokens()]
     room_response_list = []
 
     for token in tokens:
@@ -615,7 +611,7 @@ def notify_actors(event, response):
 
     for room, agent_response in room_response_list:
         socket.emit(event, agent_response, room=room)
-        
+
 
 @app.route('/call_service', methods=['GET'])
 def calculate_route():
@@ -680,7 +676,35 @@ def auto_destruction():
 
 
 if __name__ == '__main__':
+    if replay:
+        sim_args = {'simulation_config': None, 'to_record': None, 'replay_file_name': replay}
+
+    else:
+        sim_args = {
+            'simulation_config': dict(
+                simulation_url=f'http://{base_url}:{port}',
+                api_url=f'http://{base_url}:{port}',
+                max_agents=agents_amount,
+                first_step_time=first_step_time,
+                step_time=step_time,
+                social_asset_timeout=social_assets_timeout
+            ), 'to_record': record}
+
+    api.add_resource(SimulationManager,
+                     '/simulator/info/<string:id_attribute>',
+                     endpoint='sim_info',
+                     resource_class_kwargs=sim_args)
+
+    api.add_resource(MatchStepManager,
+                     '/simulator/match/<int:match>/step',
+                     '/simulator/match/<int:match>/step/<int:step>',
+                     endpoint='step')
+
+    api.add_resource(MatchInfoManager,
+                     '/simulator/match/<int:match>/info/<string:id_attribute>',
+                     endpoint='match')
+
     app.config['SECRET_KEY'] = secret
     app.config['JSON_SORT_KEYS'] = False
-    Logger.normal(f'API: Serving on http://{base_url}:{port}')
+    Logger.normal(f'Serving on http://{base_url}:{port}')
     socket.run(app=app, host=base_url, port=port)

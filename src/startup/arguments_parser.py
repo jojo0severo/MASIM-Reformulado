@@ -25,9 +25,9 @@ class Parser:
         self.parser.add_argument('-step_t', required=False, type=int, default=5)
         self.parser.add_argument('-first_t', required=False, type=int, default=20)
         self.parser.add_argument('-mtd', required=False, type=str, default='time')
-        self.parser.add_argument('-log', required=False, type=str, default='true')
-        self.parser.add_argument('-mp', required=False, type=str, default='8000')
-        self.parser.add_argument('-record', required=False, type=str, default='True')
+        self.parser.add_argument('-log', required=False, type=bool, default=True)
+        self.parser.add_argument('-replay', required=False, type=bool, default=False)
+        self.parser.add_argument('-record', required=False, type=bool, default=True)
         self.parser.add_argument('-sa_timeout', required=False, type=int, default=5)
         self.parser.add_argument('-load_sim', required=False, type=bool, default=False)
         self.parser.add_argument('-write_sim', required=False, type=bool, default=False)
@@ -111,23 +111,6 @@ class Parser:
 
         return None
 
-    def get_monitor_arguments(self):
-        """Return all the arguments necessary for the Monitor.
-
-        :returns list: List of arguments"""
-
-        args = self.parser.parse_args()
-
-        if not args.secret:
-            secret = self.secret
-        else:
-            secret = args.secret
-
-        if args.url == 'localhost':
-            args.url = '127.0.0.1'
-
-        return [args.url, args.mp, args.p, args.record, args.conf, secret]
-
     def get_api_arguments(self):
         """Return all the arguments necessary for the API.
 
@@ -143,8 +126,8 @@ class Parser:
         if args.url == 'localhost':
             args.url = '127.0.0.1'
 
-        return [args.url, args.p, args.mp, args.step_t, args.first_t, args.mtd, args.log, args.sa_timeout,
-                secret, args.conf, args.load_sim, args.write_sim]
+        return [args.url, args.p, args.step_t, args.first_t, args.mtd, args.log, args.sa_timeout,
+                secret, args.conf, args.load_sim, args.write_sim, args.replay, args.record]
 
     def get_arguments(self):
         """Return all the arguments.
