@@ -41,23 +41,12 @@ current_prob = None
 @monitor_socket.on('percepts')
 def percepts(msg):
     global monitor_package_sizes
-    #
-    # msg_size = get_total_size(msg)
-    # monitor_package_sizes.append(msg_size)
     agent_socket.emit('send_action', json.dumps({'token': agent_token, 'action': 'pass', 'parameters': []}))
 
 
 @monitor_socket.on('bye')
 def finish(msg):
     global process_finished
-    # global monitor_package_sizes
-    #
-    # path = root + reports_folder + '/package_size_api_monitor_' + str(current_prob) + '.csv'
-    #
-    # with open(path, 'w+') as report:
-    #     for e in monitor_package_sizes:
-    #         report.write(str(e)+'\n')
-    #
     process_finished = True
 
 
@@ -119,13 +108,6 @@ def start_processes(experiment):
     log(f'{exp_name}_{experiment}', 'Simulation finished, killing all processes.')
 
     time.sleep(5)
-
-    # current_process = psutil.Process(sim_proc.pid)
-    # children = current_process.children(recursive=True)
-    # for child in children:
-    #     os.kill(child.pid, signal.SIGTERM)
-    #
-    # sim_proc.kill()
 
     sim_proc.kill()
     del sim_proc
