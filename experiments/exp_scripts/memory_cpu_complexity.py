@@ -57,7 +57,7 @@ def start_processes(experiment):
 
     log(f'{exp_name}_{experiment}', 'Start simulator process.')
 
-    sim_proc = subprocess.Popen(sim_command)#, stdout=null, stderr=subprocess.STDOUT)
+    sim_proc = subprocess.Popen(sim_command)
 
     log(f'{exp_name}_{experiment}', 'Waiting for the simulation start...')
 
