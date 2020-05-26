@@ -499,7 +499,7 @@ class JsonFormatter:
 
         for event in events_list:
             if not event:
-                pass
+                print("No event")
 
             if event.type == 'flood':
                 flood = {
