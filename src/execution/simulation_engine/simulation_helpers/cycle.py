@@ -144,20 +144,20 @@ class Cycle:
     def get_step(self):
         events = []
         for step in self.steps[:(self.current_step+1)]:
-            if step['flood'] or step['flood'].active:
-                events.append(step['flood'])
+            if step['flood'] and step['flood'].active:
+                    events.append(step['flood'])
 
-                for victim in step['victims']:
-                    if victim.active:
-                        events.append(victim)
+                    for victim in step['victims']:
+                        if victim.active:
+                            events.append(victim)
 
-                for photo in step['photos']:
-                    if photo.active:
-                        events.append(photo)
+                    for photo in step['photos']:
+                        if photo.active:
+                            events.append(photo)
 
-                for water_sample in step['water_samples']:
-                    if water_sample.active:
-                        events.append(water_sample)
+                    for water_sample in step['water_samples']:
+                        if water_sample.active:
+                            events.append(water_sample)
 
         return events
 
