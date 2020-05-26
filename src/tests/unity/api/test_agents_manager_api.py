@@ -49,7 +49,7 @@ def test_get_workers():
     assert len(manager.get_workers()) == 1
 
 
-def test_edit():
+def test_edit_agent():
     manager.edit_agent('token1', 'worker', False)
     assert not manager.get_agent('token1').worker
     manager.edit_agent('token1', 'worker', True)

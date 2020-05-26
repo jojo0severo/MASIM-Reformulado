@@ -677,9 +677,8 @@ class Cycle:
             last_action_result = 'unknownError'
             error_message = 'Unknown error: ' + str(e)
 
-        finally:
-            self.agents_manager.edit(token, 'last_action_result', last_action_result)
-            return {'agent': self.agents_manager.get(token), 'message': error_message}, secondary_result
+        self.agents_manager.edit(token, 'last_action_result', last_action_result)
+        return {'agent': self.agents_manager.get(token), 'message': error_message}, secondary_result
 
     def _deliver_agent_agent(self, token, parameters):
         if len(parameters) < 1:
@@ -1078,9 +1077,8 @@ class Cycle:
             last_action_result = 'unknownError'
             error_message = 'Unknown error: ' + str(e)
 
-        finally:
-            self.social_assets_manager.edit(token, 'last_action_result', last_action_result)
-            return {'social_asset': self.social_assets_manager.get(token), 'message': error_message}, secondary_result
+        self.social_assets_manager.edit(token, 'last_action_result', last_action_result)
+        return {'social_asset': self.social_assets_manager.get(token), 'message': error_message}, secondary_result
 
     def _deliver_physical_agent_cdm(self, token, parameters):
         if len(parameters) < 1:
@@ -1467,9 +1465,8 @@ class Cycle:
             last_action_result = 'unknownError'
             error_message = 'Unknown error: ' + str(e)
 
-        finally:
-            self.agents_manager.edit(token, 'last_action_result', last_action_result)
-            return {'agent': self.agents_manager.get(token), 'message': error_message}
+        self.agents_manager.edit(token, 'last_action_result', last_action_result)
+        return {'agent': self.agents_manager.get(token), 'message': error_message}
 
     def _request_social_asset(self, token, parameters):
         if len(parameters) != 1:
@@ -1589,17 +1586,12 @@ class Cycle:
             last_action_result = e.identifier
             error_message = e.message
 
-        except FailedNoRoute as e:
-            last_action_result = e.identifier
-            error_message = e.message
-
         except Exception as e:
             last_action_result = 'unknownError'
             error_message = 'Unknown error: ' + str(e)
 
-        finally:
-            self.social_assets_manager.edit(token, 'last_action_result', last_action_result)
-            return {'social_asset': self.social_assets_manager.get(token), 'message': error_message}
+        self.social_assets_manager.edit(token, 'last_action_result', last_action_result)
+        return {'social_asset': self.social_assets_manager.get(token), 'message': error_message}
 
     def _check_abilities_and_resources(self, token, action):
         if self.agents_manager.get(token) is None:
@@ -2069,8 +2061,6 @@ class Cycle:
             tokens = [*self.agents_manager.get_tokens(), *self.social_assets_manager.get_tokens()]
 
             for token in tokens:
-                report[token] = {}
-
                 report[token] = {'total_victims': 0, 'total_photos': 0, 'total_water_samples': 0}
 
                 for match in self.match_history:

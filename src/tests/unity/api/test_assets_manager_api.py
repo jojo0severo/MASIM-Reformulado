@@ -49,7 +49,7 @@ def test_get_workers():
     assert len(manager.get_workers()) == 1
 
 
-def test_edit():
+def test_edit_asset():
     manager.edit_social_asset('token1', 'worker', False)
     assert not manager.get_social_asset('token1').worker
     manager.edit_social_asset('token1', 'worker', True)
@@ -74,6 +74,6 @@ if __name__ == '__main__':
     test_get_all()
     test_get_actions()
     test_get_workers()
-    test_edit_agent()
+    test_edit_asset()
     test_clear_workers()
     test_remove()

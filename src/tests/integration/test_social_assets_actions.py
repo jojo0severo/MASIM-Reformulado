@@ -1,7 +1,6 @@
 import os
 import re
 import time
-import signal
 import pathlib
 import requests
 import subprocess

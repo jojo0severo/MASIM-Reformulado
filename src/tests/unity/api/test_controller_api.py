@@ -14,7 +14,7 @@ from src.execution.communication.controllers.controller import Controller
 
 
 class RequestMock:
-    def __init__(self, json=''):
+    def __init__(self, json=None):
         self.json = json
         self.sid = '10'
 
@@ -120,20 +120,20 @@ def test_do_agent_registration():
     controller.terminated = True
     token = list(controller.manager.agents_manager.agents.keys())[0]
 
-    assert controller.do_agent_registration({'token': token})[1] == 'Simulation has not started.'
+    assert controller.do_agent_registration({'token': token}, {'info': 'info'})[1] == 'Simulation has not started.'
     controller.started = True
-    assert controller.do_agent_registration({'token': token})[1] == 'Simulation already terminated.'
+    assert controller.do_agent_registration({'token': token}, {'info': 'info'})[1] == 'Simulation already terminated.'
     controller.terminated = False
     controller.finish_connection_timer()
-    assert controller.do_agent_registration({'token': token})[1] == 'Connection time ended.'
+    assert controller.do_agent_registration({'token': token}, {'info': 'info'})[1] == 'Connection time ended.'
     controller.start_timer()
-    assert controller.do_agent_registration('not a dictionary')[1] == 'Object is not a dictionary.'
+    assert controller.do_agent_registration('not a dictionary', {'info': 'info'})[1] == 'Object is not a dictionary.'
     print(type({'not_token_key': token}))
-    assert controller.do_agent_registration({'not_token_key': token})[1] == 'Object does not contain "token" as key.'
-    assert controller.do_agent_registration({'token': 'wrong token'})[1] == 'Agent was not connected.'
+    assert controller.do_agent_registration({'not_token_key': token}, {'info': 'info'})[1] == 'Object does not contain "token" as key.'
+    assert controller.do_agent_registration({'token': 'wrong token'}, {'info': 'info'})[1] == 'Agent was not connected.'
 
-    assert controller.do_agent_registration({'token': token, 'sid': 10})[0] == 1
-    assert controller.do_agent_registration({'token': token, 'sid': 10})[1] == 'Socket already registered.'
+    assert controller.do_agent_registration({'token': token, 'sid': 10}, {'info': 'info'})[0] == 1
+    assert controller.do_agent_registration({'token': token, 'sid': 10}, {'info': 'info'})[1] == 'Socket already registered.'
 
 
 def test_do_asset_registration():
@@ -141,20 +141,20 @@ def test_do_asset_registration():
     controller.terminated = True
     token = list(controller.manager.social_assets_manager.social_assets.keys())[0]
 
-    assert controller.do_social_asset_registration(' not started ')[1] == 'Simulation has not started.'
+    assert controller.do_social_asset_registration(' not started ', {'info': 'info'})[1] == 'Simulation has not started.'
     controller.started = True
-    assert controller.do_social_asset_registration(' terminated ')[1] == 'Simulation already terminated.'
+    assert controller.do_social_asset_registration(' terminated ', {'info': 'info'})[1] == 'Simulation already terminated.'
     controller.terminated = False
     controller.finish_assets_connections()
-    assert controller.do_social_asset_registration(' terminated ')[1] == 'There is no social asset request.'
+    assert controller.do_social_asset_registration(' terminated ', {'info': 'info'})[1] == 'There is no social asset request.'
     controller.start_social_asset_request({'requests': ['token1'], 'messages': None, 'current_step': 3, 'environment': None})
 
-    assert controller.do_social_asset_registration('{"token": "not a dict"}')[1] == 'Object is not a dictionary.'
-    assert controller.do_social_asset_registration({'not_token_key': ''})[1] == 'Object does not contain "token" as key.'
-    assert controller.do_social_asset_registration({'token': 'not_connected'})[1] == 'Social asset was not connected.'
+    assert controller.do_social_asset_registration('{"token": "not a dict"}', {'info': 'info'})[1] == 'Object is not a dictionary.'
+    assert controller.do_social_asset_registration({'not_token_key': ''}, {'info': 'info'})[1] == 'Object does not contain "token" as key.'
+    assert controller.do_social_asset_registration({'token': 'not_connected'}, {'info': 'info'})[1] == 'Social asset was not connected.'
 
-    assert controller.do_social_asset_registration({'token': token, 'sid': 15})[0] == 1
-    assert controller.do_social_asset_registration({'token': token, 'sid': 15})[1] == 'Socket already registered.'
+    assert controller.do_social_asset_registration({'token': token, 'sid': 15}, {'info': 'info'})[0] == 1
+    assert controller.do_social_asset_registration({'token': token, 'sid': 15}, {'info': 'info'})[1] == 'Socket already registered.'
 
 
 def test_do_agent_socket_disconnection():
@@ -199,7 +199,5 @@ if __name__ == '__main__':
     test_do_asset_connection()
     test_do_agent_registration()
     test_do_asset_registration()
-    test_do_agent_socket_connection()
-    test_do_asset_socket_connection()
     test_do_agent_socket_disconnection()
     test_do_asset_socket_disconnection()
