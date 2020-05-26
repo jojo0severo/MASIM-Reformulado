@@ -49,7 +49,6 @@ class AgentsManager:
             i = 0
             while i in range(roles_info[role]['amount']):
                 roles.append(temp_role)
-                
                 i += 1
 
         return roles
