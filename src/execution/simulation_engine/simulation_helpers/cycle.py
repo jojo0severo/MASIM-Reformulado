@@ -498,10 +498,9 @@ class Cycle:
                 if len(parameters) == 1:
                     match = None
                     for sub_token, sub_action, sub_param in special_action_tokens:
-                        if len(sub_param) == 3:
-                            if sub_token == parameters[0] and sub_action == 'deliverPhysical' and sub_param[2] == token:
-                                match = [sub_token, sub_action, sub_param]
-                                break
+                        if len(sub_param) == 3 and sub_token == parameters[0] and sub_action == 'deliverPhysical' and sub_param[2] == token:
+                            match = [sub_token, sub_action, sub_param]
+                            break
 
                     if match is not None:
                         special_action_tokens.remove(match)
