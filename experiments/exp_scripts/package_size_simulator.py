@@ -114,6 +114,7 @@ def start_processes(prob):
     requests.post(sim_url + '/start', json={'secret': secret})
 
     log(f'{exp_name}_{prob}', 'Agents connected, processing steps...')
+    step = 0
     while step in range(default_steps):
         response = requests.post(sim_url+'/do_actions', json={'actions': actions, 'secret': secret}).json()
         results.append(get_total_size(response))
