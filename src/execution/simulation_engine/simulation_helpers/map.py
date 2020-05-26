@@ -59,9 +59,8 @@ class Map:
         ax, ay = a
         bx, by = b
 
-        if self.check_proximity(ax, bx):
-            if self.check_proximity(ay, by):
-                return True
+        if self.check_proximity(ax, bx) and self.check_proximity(ay, by):
+            return True
 
         return False
 
@@ -185,9 +184,6 @@ class Map:
                     current_node_coord = node_coord
 
                 elif self.euclidean_distance(current_node_coord, node_coord) >= min_dist:
-                    # min_route = self.generate_straight_route(current_node_coord, node_coord, speed, False)
-
-                    # route.extend(min_route)
                     route.append((*node_coord, False))
                     current_node_coord = node_coord
 
@@ -349,9 +345,8 @@ class Map:
         result = []
         for node in self.router.rnodes:
             node_coord = self.get_node_coord(node)
-            if self.euclidean_distance(node_coord, coord) <= radius:
-                if not self.is_out(node_coord):
-                    result.append(node)
+            if self.euclidean_distance(node_coord, coord) <= radius and not self.is_out(node_coord):
+                result.append(node)
         return result
 
     def is_out(self, node):

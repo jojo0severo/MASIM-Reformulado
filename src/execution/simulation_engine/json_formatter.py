@@ -43,11 +43,11 @@ class JsonFormatter:
             json_actors = [{'agent': agent, 'message': message} for agent in json_agents]
             environment = {'events': self.jsonify_events(step), 'step': current_step}
 
-            percepts = {'status': 1, 'actors': json_actors, 'environment': environment, 'message': 'Simulation restarted.'}
+            percepts = {'status': 1, 'actors': json_actors, 'environment': environment, 'message': message}
             initial_percepts = {'status': 1, 'agents': json_agents_init, 'map_percepts': new_map_percepts, 'message': ''}
             report_response = {'status': 1, 'report': report, 'message': ''}
 
-            Logger.normal('Simulation restarted.')
+            Logger.normal(message)
 
             return {'status': 1, 'initial_percepts': initial_percepts, 'assets_tokens': assets_tokens,
                     'report': report_response, 'percepts': percepts, 'message': message}
@@ -501,7 +501,7 @@ class JsonFormatter:
 
         for event in events_list:
             if not event:
-                pass
+                print("No event")
 
             if event.type == 'flood':
                 flood = {

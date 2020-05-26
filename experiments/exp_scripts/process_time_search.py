@@ -88,7 +88,6 @@ def start_processes(agents_amount, prob):
         except Exception:
             time.sleep(1)
 
-    sim_null = open(os.devnull, 'w')
     log(f'{exp_name}_{agents_amount}_{prob}', 'Start simulator process.')
     sim_proc = subprocess.Popen(sim_command)#, stdout=sim_null, stderr=subprocess.STDOUT)
 
@@ -103,12 +102,13 @@ def start_processes(agents_amount, prob):
     requests.post(sim_url + '/start', json={'secret': secret})
 
     log(f'{exp_name}_{agents_amount}_{prob}', 'Agents connected, processing steps...')
-    for step in range(default_steps):
+    step = 0
+    while step in range(default_steps):
         old_time = get_current_time()
         response = requests.post(sim_url+'/do_actions', json={'actions': actions, 'secret': secret}).json()
         new_time = get_current_time()
         results.append(new_time - old_time)
-
+        step += 1
     save_results(agents_amount, prob)
     results.clear()
     actions.clear()

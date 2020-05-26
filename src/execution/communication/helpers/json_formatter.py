@@ -119,8 +119,7 @@ def event_error_format(message):
 
 
 def initial_percepts_monitor_format(response):
-    # return {'map': response['map_percepts'], 'agent': response['agent_percepts']}
-    return response['map_percepts']
+  return response['map_percepts']
 
 
 def percepts_monitor_format(response):
