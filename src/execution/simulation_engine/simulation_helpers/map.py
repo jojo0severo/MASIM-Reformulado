@@ -184,9 +184,6 @@ class Map:
                     current_node_coord = node_coord
 
                 elif self.euclidean_distance(current_node_coord, node_coord) >= min_dist:
-                    # min_route = self.generate_straight_route(current_node_coord, node_coord, speed, False)
-
-                    # route.extend(min_route)
                     route.append((*node_coord, False))
                     current_node_coord = node_coord
 
