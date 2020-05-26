@@ -571,7 +571,7 @@ def notify_monitor(event, response):
 
     else:
         Logger.error('Event type in "notify monitor" not found.')
-        return
+
 
 
 def notify_actors(event, response):
