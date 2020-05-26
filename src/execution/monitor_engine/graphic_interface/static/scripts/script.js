@@ -16,6 +16,7 @@ var currentEntity = {'type': null, 'id': null, 'active': false};
 var currentStep = 0;
 var currentMatch = 0;
 
+
 // Markers Icons
 var floodIcon = L.icon({
     iconUrl: '/static/images/flood.png',
@@ -617,6 +618,8 @@ function log(tag, message) {
     var oldText = $(logId).val();
     var formattedText = oldText + '\n[ ' + tag + ' ] ## ' + message;
     $(logId).focus().val(formattedText);
+
+
 }
 
 function logNormal(message) {
@@ -629,6 +632,11 @@ function logError(message) {
 
 function logCritical(message) {
     log('CRITICAL', message);
+}
+
+
+function downloadData(){
+
 }
 
 $(entityBoxId).hide();

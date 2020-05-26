@@ -9,11 +9,14 @@ import json
 import time
 import queue
 import signal
+import zipfile
+import pathlib
 import requests
 import multiprocessing
+from glob import glob
 from multiprocessing import Queue
 from flask_socketio import SocketIO
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_restful import Api
 from communication.controllers.controller import Controller
 from communication.helpers import json_formatter
@@ -47,6 +50,15 @@ percepts_event = 'percepts'
 end_event = 'end'
 bye_event = 'bye'
 error_event = 'error'
+
+
+@app.after_request
+def after_request(response):
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
 
 
 @app.route('/')
@@ -526,6 +538,32 @@ def disconnect_registered_asset(msg):
             response['message'] = 'Simulation is not online.'
 
     return json.dumps(response, sort_keys=False)
+
+
+@app.route('/download', methods=['GET'])
+def download_logs():
+    full_path = pathlib.Path(__file__).parents[2]
+    print(str((full_path / 'logs.zip').absolute()))
+    try:
+        os.remove(str((full_path / 'logs.zip').absolute()))
+    except FileNotFoundError:
+        pass
+
+    path = formatter.save_logs() / '*'
+
+    zip_obj = zipfile.ZipFile('logs.zip', 'w')
+
+    for file in glob(str(path.absolute())):
+        if '/' in str(file):
+            filename = '/'.join(file.split('/')[-2:])
+        else:
+            filename = '\\'.join(file.split('\\')[-2:])
+
+        zip_obj.write(file, filename)
+
+    zip_obj.close()
+
+    return send_from_directory(directory=str(full_path.absolute()), filename='logs.zip', cache_timeout=0)
 
 
 def send_initial_percepts(token, info):
