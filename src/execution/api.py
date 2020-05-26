@@ -279,7 +279,8 @@ def register_agent(msg):
 
         except requests.exceptions.ConnectionError:
             response['status'] = 6
-            response['message'] = 'Simulation is not online.'
+            msgs = 'Simulation is not online.'
+            response['message'] = msgs
 
     else:
         Logger.error(f'Unknown error: {message}')
@@ -491,7 +492,8 @@ def disconnect_registered_agent(msg):
             response['message'] = 'An internal error occurred at the simulation.'
 
         except requests.exceptions.ConnectionError:
-            response['message'] = 'Simulation is not online.'
+            msgs = 'Simulation is not online.'
+            response['message'] = msgs
 
     Logger.normal(f'Disconnect a agent, message: {message}')
 
@@ -524,7 +526,8 @@ def disconnect_registered_asset(msg):
             response['message'] = 'An internal error occurred at the simulation.'
 
         except requests.exceptions.ConnectionError:
-            response['message'] = 'Simulation is not online.'
+            msgs = 'Simulation is not online.'
+            response['message'] = msgs
 
     return json.dumps(response, sort_keys=False)
 
