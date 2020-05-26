@@ -345,9 +345,8 @@ class Map:
         result = []
         for node in self.router.rnodes:
             node_coord = self.get_node_coord(node)
-            if self.euclidean_distance(node_coord, coord) <= radius:
-                if not self.is_out(node_coord):
-                    result.append(node)
+            if self.euclidean_distance(node_coord, coord) <= radius and not self.is_out(node_coord):
+                result.append(node)
         return result
 
     def is_out(self, node):
