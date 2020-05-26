@@ -104,7 +104,8 @@ def start_connections():
         return jsonify('')
 
     except json.JSONDecodeError:
-        return jsonify(message='This endpoint can not be accessed.')
+        msg = 'This endpoint can not be accessed.'
+        return jsonify(message=msg)
 
 
 def first_step_time_controller(ready_queue):
@@ -642,12 +643,13 @@ def terminate():
     Note: This endpoint must be called from the simulation, it is not recommended to the user to call it on his own."""
 
     valid, message = controller.do_internal_verification(request)
-
+    msg = 'This endpoint can not be accessed.'
     if not valid:
-        return jsonify(message='This endpoint can not be accessed.')
+        
+        return jsonify(message=msg)
 
     if 'back' not in message:
-        return jsonify(message='This endpoint can not be accessed.')
+        return jsonify(message=msg)
 
     if message['back'] == 0:
         multiprocessing.Process(target=auto_destruction, daemon=True).start()
