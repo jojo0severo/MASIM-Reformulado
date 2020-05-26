@@ -767,8 +767,7 @@ class Cycle:
                 if len(parameters) == 1:
                     match = None
                     for sub_token, sub_action, sub_param in special_action_tokens:
-                        if len(sub_param) == 1:
-                            if sub_token == parameters[0] and sub_action == 'getCarried' and sub_param[0] == token:
+                        if len(sub_param) == 1 and sub_token == parameters[0] and sub_action == 'getCarried' and sub_param[0] == token:
                                 match = [sub_token, sub_action, sub_param]
                                 break
 
@@ -941,8 +940,7 @@ class Cycle:
                 if len(parameters) == 1:
                     match = None
                     for sub_token, sub_action, sub_param in special_action_tokens:
-                        if len(sub_param) == 1:
-                            if sub_token == parameters[0] and sub_action == 'deliverVirtual' and sub_param[2] == token:
+                        if len(sub_param) == 1 and sub_token == parameters[0] and sub_action == 'deliverVirtual' and sub_param[2] == token:
                                 match = [sub_token, sub_action, sub_param]
                                 break
 
@@ -975,8 +973,7 @@ class Cycle:
                 if len(parameters) == 1:
                     match = None
                     for sub_token, sub_action, sub_param in special_action_tokens:
-                        if len(sub_param) == 1:
-                            if sub_token == parameters[0] and sub_action == 'deliverRequest' and sub_param[0] == token:
+                        if len(sub_param) == 1 and sub_token == parameters[0] and sub_action == 'deliverRequest' and sub_param[0] == token:
                                 match = [sub_token, sub_action, sub_param]
                                 break
 
