@@ -26,11 +26,6 @@ from monitor_engine.resources.manager import SimulationManager, MatchInfoManager
 (base_url, port, step_time, first_step_time, method, log, social_assets_timeout, secret, config_path,
  load_sim, write_sim, replay, record, agents_amount) = sys.argv[1:]
 
-load_sim_bool = load_sim.lower() == 'true'
-write_sim_bool = write_sim.lower() == 'true'
-replay = replay.lower() == 'true'
-record = record.lower() == 'true'
-
 app = Flask(__name__,
             template_folder='monitor_engine/graphic_interface/templates',
             static_folder='monitor_engine/graphic_interface/static')
@@ -39,7 +34,7 @@ api = Api(app)
 socket = SocketIO(app)
 
 monitor_manager = MonitorManager()
-formatter = JsonFormatter(config_path, load_sim_bool, write_sim_bool)
+formatter = JsonFormatter(config_path, load_sim, write_sim)
 controller = Controller(agents_amount, first_step_time, secret)
 every_agent_registered = Queue()
 one_agent_registered_queue = Queue()
@@ -675,7 +670,7 @@ def auto_destruction():
     os.kill(os.getpid(), signal.SIGTERM)
 
 
-if __name__ == '__main__':
+def run():
     if replay:
         sim_args = {'simulation_config': None, 'to_record': None, 'replay_file_name': replay}
 

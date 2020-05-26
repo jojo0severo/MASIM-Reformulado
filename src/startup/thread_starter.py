@@ -1,3 +1,4 @@
+import sys
 import json
 import pathlib
 import subprocess
@@ -35,7 +36,7 @@ class Starter:
         self.check_arguments()
         self.create_environment()
         arguments = self.get_arguments()
-        self.start_processes(*arguments)
+        self.start_processes(arguments)
 
     def check_configuration_file(self):
         """Do all the verifications on the configuration file.
@@ -93,23 +94,14 @@ class Starter:
         api_arguments = self.parser.get_api_arguments()
         api_arguments.append(agents_amount)
 
-        return api_arguments, self.parser.get_argument('pyv')
+        return api_arguments
 
-    def start_processes(self, api_arguments, python_version):
+    def start_processes(self, api_arguments):
         """Start the process that will run the API and the other process that will run the Simulation.
 
         Note that this method only returns when the processes end."""
 
-        api_path = str((self.root / 'execution' / 'api.py').absolute())
-        api_process_arguments = (api_path, api_arguments, self.env_handler.venv_path, python_version)
-        api_process = Process(target=self.start_api, args=api_process_arguments, daemon=True)
+        sys.argv = [sys.argv[0], *api_arguments]
 
-        api_process.start()
-        api_process.join()
-        api_process.close()
-
-    @staticmethod
-    def start_api(module_path, api_arguments, venv_path, python_version):
-        """Start the API by command line."""
-
-        subprocess.call([f"{str(venv_path)}python{python_version}", module_path, *map(str, api_arguments)])
+        from src.execution.api import run
+        run()
