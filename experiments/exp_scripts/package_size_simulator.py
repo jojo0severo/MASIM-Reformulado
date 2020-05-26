@@ -100,7 +100,6 @@ def start_processes(prob):
         except Exception:
             time.sleep(1)
 
-    sim_null = open(os.devnull, 'w')
     log(f'{exp_name}_{prob}', 'Start simulator process.')
     sim_proc = subprocess.Popen(sim_command)#, stdout=sim_null, stderr=subprocess.STDOUT)
 

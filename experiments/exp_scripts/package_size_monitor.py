@@ -88,8 +88,6 @@ def start_processes(experiment):
     global process_finished
 
     process_finished = False
-
-    null_value = open(os.devnull, 'w')
     log(f'{exp_name}_{experiment}', 'Start simulator process.')
 
     sim_proc = subprocess.Popen(sim_command)#, stdout=null, stderr=subprocess.STDOUT)
