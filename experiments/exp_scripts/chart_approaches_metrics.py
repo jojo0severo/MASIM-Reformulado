@@ -13,8 +13,8 @@ def get_approach_metrics(path):
     with open(root + path, 'r') as config:
         content = json.loads(config.read())
     metrics = content['environment']
-    entriesToRemove = ('delivered_items','max_steps','current_step','floods_amount')
-    for k in entriesToRemove:
+    entries_to_remove = ('delivered_items','max_steps','current_step','floods_amount')
+    for k in entries_to_remove:
         metrics.pop(k, None)
     return metrics
 
