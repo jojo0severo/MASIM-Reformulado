@@ -59,9 +59,8 @@ class Map:
         ax, ay = a
         bx, by = b
 
-        if self.check_proximity(ax, bx):
-            if self.check_proximity(ay, by):
-                return True
+        if self.check_proximity(ax, bx) and self.check_proximity(ay, by):
+            return True
 
         return False
 
