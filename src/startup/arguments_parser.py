@@ -10,28 +10,28 @@ class Parser:
     This argument is necessary because the project it is not intended to have any configuration files."""
 
     def __init__(self):
-        self.parser = argparse.ArgumentParser(prog='Disaster Simulator')
+        self.command_parser = argparse.ArgumentParser(prog='Disaster Simulator')
         self.secret = secrets.token_urlsafe(15)
         self.add_arguments()
 
     def add_arguments(self):
         """Add all the arguments to the parser."""
 
-        self.parser.add_argument('-conf', required=True, type=str)
-        self.parser.add_argument('-url', required=False, type=str, default='127.0.0.1')
-        self.parser.add_argument('-p', required=False, type=str, default='12345')
-        self.parser.add_argument('-pyv', required=False, type=str, default='')
-        self.parser.add_argument('-g', required=False, type=bool, default=False)
-        self.parser.add_argument('-step_t', required=False, type=int, default=5)
-        self.parser.add_argument('-first_t', required=False, type=int, default=20)
-        self.parser.add_argument('-mtd', required=False, type=str, default='time')
-        self.parser.add_argument('-log', required=False, type=bool, default=True)
-        self.parser.add_argument('-replay', required=False, type=bool, default=False)
-        self.parser.add_argument('-record', required=False, type=bool, default=True)
-        self.parser.add_argument('-sa_timeout', required=False, type=int, default=5)
-        self.parser.add_argument('-load_sim', required=False, type=bool, default=False)
-        self.parser.add_argument('-write_sim', required=False, type=bool, default=False)
-        self.parser.add_argument('-secret', required=False, type=str, default='')
+        self.command_parser.add_argument('-conf', required=True, type=str)
+        self.command_parser.add_argument('-url', required=False, type=str, default='127.0.0.1')
+        self.command_parser.add_argument('-p', required=False, type=str, default='12345')
+        self.command_parser.add_argument('-pyv', required=False, type=str, default='')
+        self.command_parser.add_argument('-g', required=False, type=bool, default=False)
+        self.command_parser.add_argument('-step_t', required=False, type=int, default=5)
+        self.command_parser.add_argument('-first_t', required=False, type=int, default=20)
+        self.command_parser.add_argument('-mtd', required=False, type=str, default='time')
+        self.command_parser.add_argument('-log', required=False, type=bool, default=True)
+        self.command_parser.add_argument('-replay', required=False, type=bool, default=False)
+        self.command_parser.add_argument('-record', required=False, type=bool, default=True)
+        self.command_parser.add_argument('-sa_timeout', required=False, type=int, default=5)
+        self.command_parser.add_argument('-load_sim', required=False, type=bool, default=False)
+        self.command_parser.add_argument('-write_sim', required=False, type=bool, default=False)
+        self.command_parser.add_argument('-secret', required=False, type=str, default='')
 
     def check_arguments(self):
         """Check all the arguments to prevent wrong format.
@@ -39,7 +39,7 @@ class Parser:
         :returns int: Status of error, if any found than return 0 else 1
         :returns str: Message of the error so the user can fix it."""
 
-        args = self.parser.parse_args().__dict__
+        args = self.command_parser.parse_args().__dict__
 
         if args['url'].startswith('http'):
             return 0, 'URL can not have the "http://" prefix.'
@@ -101,7 +101,7 @@ class Parser:
         :param arg: Argument requested
         :returns [None|primitive type obj]: None if argument not find else the value hold on the variable."""
 
-        args = self.parser.parse_args()
+        args = self.command_parser.parse_args()
         for argument in args.__dict__:
             if argument == arg:
                 if argument == 'url' and args[argument] == 'localhost':
@@ -116,7 +116,7 @@ class Parser:
 
         :returns list: List of arguments"""
 
-        args = self.parser.parse_args()
+        args = self.command_parser.parse_args()
 
         if not args.secret:
             secret = self.secret
@@ -134,7 +134,7 @@ class Parser:
 
         :returns list: List of arguments"""
 
-        args = self.parser.parse_args()
+        args = self.command_parser.parse_args()
 
         if args.url == 'localhost':
             args.url = '127.0.0.1'
@@ -146,4 +146,4 @@ class Parser:
         """Check if the simulator need to load the events from a special config file.
 
         :returns bool: True if need to load a file else False."""
-        return self.parser.parse_args().load_sim
+        return self.command_parser.parse_args().load_sim
