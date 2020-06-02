@@ -83,11 +83,8 @@ class Generator:
 
         :return Flood: Flood event with dimensions gotten from the configuration file."""
 
-        dimensions: dict = {
-            'shape': 'circle', 'radius': (
-                    random.uniform(self.generate_variables['flood']['circle']['minRadius'],
-                                   self.generate_variables['flood']['circle']['maxRadius']) / self.measure_unit
-            )}
+        dimensions: dict = {'shape': 'circle', 'radius': (
+                    random.uniform(self.generate_variables['flood']['circle']['minRadius'], self.generate_variables['flood']['circle']['maxRadius']) / self.measure_unit)}
 
         flood_lat: float = random.uniform(self.current_map_variables['minLat'], self.current_map_variables['maxLat'])
         flood_lon: float = random.uniform(self.current_map_variables['minLon'], self.current_map_variables['maxLon'])
@@ -105,9 +102,7 @@ class Generator:
 
         if self.generate_variables['flood']['minPeriod']:
             period: int = int((random.randint(self.generate_variables['flood']['minPeriod'],
-                                              self.generate_variables['flood']['maxPeriod']) / self.generate_variables[
-                                   'step_unit']))
-
+                                              self.generate_variables['flood']['maxPeriod']) / self.generate_variables['step_unit']))
             kept = False
         else:
             period = 0
@@ -126,13 +121,10 @@ class Generator:
             victim_probability: int = prop_info['victimsPerPropagationProbability']
             old_nodes: list = list_of_nodes
 
-            propag_amount: int = random.randint(
-                self.generate_variables['flood']['propagationInfo']['minVictimsPerPropagation'],
-                self.generate_variables['flood']['propagationInfo']['maxVictimsPerPropagation'])
+            propag_amount: int = random.randint(self.generate_variables['flood']['propagationInfo']['minVictimsPerPropagation'], self.generate_variables['flood']['propagationInfo']['maxVictimsPerPropagation'])
 
             for prop in range(int(((prop_info['maxPropagation'] / 100) * dimensions['radius'] / propagation_per_step))):
-                new_nodes = self.map.nodes_in_radius(dimensions['location'],
-                                                     dimensions['radius'] + propagation_per_step * prop)
+                new_nodes = self.map.nodes_in_radius(dimensions['location'], dimensions['radius'] + propagation_per_step * prop)
                 difference = self.get_difference(old_nodes, new_nodes)
 
                 if random.randint(0, 100) < victim_probability:
