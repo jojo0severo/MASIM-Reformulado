@@ -80,10 +80,11 @@ class Generator:
 
         :return Flood: Flood event with dimensions gotten from the configuration file."""
 
-        dimensions: dict = {'shape': 'circle', 'radius': (
-            random.uniform(self.generate_variables['flood']['circle']['minRadius'],
-                           self.generate_variables['flood']['circle']['maxRadius']) / self.measure_unit
-        )}
+        dimensions: dict = {
+            'shape': 'circle', 'radius': (
+                    random.uniform(self.generate_variables['flood']['circle']['minRadius'],
+                                   self.generate_variables['flood']['circle']['maxRadius']) / self.measure_unit
+            )}
 
         flood_lat: float = random.uniform(self.current_map_variables['minLat'], self.current_map_variables['maxLat'])
         flood_lon: float = random.uniform(self.current_map_variables['minLon'], self.current_map_variables['maxLon'])
@@ -104,10 +105,10 @@ class Generator:
                                               self.generate_variables['flood']['maxPeriod']) / self.generate_variables[
                                    'step_unit']))
 
-            keeped = False
+            kept = False
         else:
             period = 0
-            keeped = True
+            kept = True
 
         propagation: list = []
         nodes_propagation: list = []
@@ -138,7 +139,7 @@ class Generator:
 
         self.flood_id = self.flood_id + 1
 
-        return Flood(self.flood_id, period, keeped, dimensions, list_of_nodes, max_propagation,
+        return Flood(self.flood_id, period, kept, dimensions, list_of_nodes, max_propagation,
                      propagation_per_step, nodes_propagation), propagation
 
     def get_difference(self, node_list1, node_list2):
