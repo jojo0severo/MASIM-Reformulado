@@ -8,7 +8,6 @@ import socketio
 import requests
 import json
 import sys
-import psutil
 
 root = str(pathlib.Path(__file__).resolve().parents[2])
 temp_config = '/experiments/temp/util/temp-config.json'
