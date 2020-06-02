@@ -1,3 +1,4 @@
+import time
 import json
 import requests
 import socketio
@@ -110,7 +111,7 @@ def test_cycle():
     receiving_socket.connect('http://127.0.0.1:12345')
     connect_actors()
     while len(waits) < 2:
-        pass
+        time.sleep(0.2)
 
     delivering_socket.disconnect()
     receiving_socket.disconnect()

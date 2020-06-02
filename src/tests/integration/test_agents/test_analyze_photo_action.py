@@ -1,3 +1,4 @@
+import time
 import requests
 import json
 import socketio
@@ -91,7 +92,7 @@ def test_cycle():
     connect_agents()
 
     while wait:
-        pass
+        time.sleep(0.2)
 
     socket.disconnect()
     pass_action_socket.disconnect()
