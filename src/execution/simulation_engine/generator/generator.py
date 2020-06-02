@@ -142,8 +142,9 @@ class Generator:
         return Flood(self.flood_id, period, kept, dimensions, list_of_nodes, max_propagation,
                      propagation_per_step, nodes_propagation), propagation
 
-    def get_difference(self, node_list1, node_list2):
-        return [node for node in node_list1 if node in node_list2]
+    @staticmethod
+    def get_difference(node_list1, node_list2) -> list:
+        return list(set(node_list1) - set(node_list2))
 
     def generate_photos(self, nodes: list) -> list:
         """Generate a list of photo events inside the flood location.
