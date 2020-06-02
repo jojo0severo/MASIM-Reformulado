@@ -1,5 +1,5 @@
 from simulation_engine.exceptions.exceptions import *
-import copy
+
 
 class Agent:
     """Class that represents the Agent inside the simulation."""
