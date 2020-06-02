@@ -15,6 +15,13 @@ class Generator:
         self.general_map_variables: dict = config['map']
         self.current_map_variables: dict = config['map']['maps'][0]
         self.generate_variables: dict = config['generate']
+
+        self.victim_min_size: int = config['generate']['victim']['minSize']
+        self.victim_max_size: int = config['generate']['victim']['maxSize']
+
+        self.victim_min_lifetime: int = config['generate']['victim']['minLifetime']
+        self.victim_max_lifetime: int = config['generate']['victim']['maxLifetime']
+
         self.generate_assets_variables: dict = config['socialAssets']
         self.map = map
         self.flood_id: int = 0
@@ -170,19 +177,13 @@ class Generator:
 
         :return list: List of all the victims generated"""
 
-        victim_min_size: int = self.generate_variables['victim']['minSize']
-        victim_max_size: int = self.generate_variables['victim']['maxSize']
-
-        victim_min_lifetime: int = self.generate_variables['victim']['minLifetime']
-        victim_max_lifetime: int = self.generate_variables['victim']['maxLifetime']
-
         amount: int = random.randint(self.generate_variables['victim']['minAmount'],
                                      self.generate_variables['victim']['maxAmount'])
         victims: list = [0] * amount
         i: int = 0
         while i < amount:
-            victim_size: int = random.randint(victim_min_size, victim_max_size)
-            victim_lifetime: int = int(random.randint(victim_min_lifetime, victim_max_lifetime)
+            victim_size: int = random.randint(self.victim_min_size, self.victim_max_size)
+            victim_lifetime: int = int(random.randint(self.victim_min_lifetime, self.victim_max_lifetime)
                                        / self.generate_variables['step_unit'])
 
             victim_location: tuple = self.map.get_node_coord(random.choice(nodes))
@@ -194,19 +195,13 @@ class Generator:
         return victims
 
     def generate_victims_in_propagation(self, nodes: list) -> list:
-        victim_min_size: int = self.generate_variables['victim']['minSize']
-        victim_max_size: int = self.generate_variables['victim']['maxSize']
-
-        victim_min_lifetime: int = self.generate_variables['victim']['minLifetime']
-        victim_max_lifetime: int = self.generate_variables['victim']['maxLifetime']
-
         amount: int = random.randint(self.generate_variables['flood']['propagationInfo']['minVictimsPerPropagation'],
                                      self.generate_variables['flood']['propagationInfo']['maxVictimsPerPropagation'])
         victims: list = [0] * amount
         i: int = 0
         while i < amount:
-            victim_size: int = random.randint(victim_min_size, victim_max_size)
-            victim_lifetime: int = int(random.randint(victim_min_lifetime, victim_max_lifetime)
+            victim_size: int = random.randint(self.victim_min_size, self.victim_max_size)
+            victim_lifetime: int = int(random.randint(self.victim_min_lifetime, self.victim_max_lifetime)
                                        / self.generate_variables['step_unit'])
 
             victim_location: tuple = self.map.get_node_coord(random.choice(nodes))
@@ -224,19 +219,13 @@ class Generator:
 
         :return list: List with all the generated Victims."""
 
-        victim_min_size: int = self.generate_variables['victim']['minSize']
-        victim_max_size: int = self.generate_variables['victim']['maxSize']
-
-        victim_min_lifetime: int = self.generate_variables['victim']['minLifetime']
-        victim_max_lifetime: int = self.generate_variables['victim']['maxLifetime']
-
         amount: int = random.randint(self.generate_variables['victim']['minAmount'],
                                      self.generate_variables['victim']['maxAmount'])
         victims: list = [0] * amount
         i: int = 0
         while i < amount:
-            victim_size: int = random.randint(victim_min_size, victim_max_size)
-            victim_lifetime: int = int(random.randint(victim_min_lifetime, victim_max_lifetime)
+            victim_size: int = random.randint(self.victim_min_size, self.victim_max_size)
+            victim_lifetime: int = int(random.randint(self.victim_min_lifetime, self.victim_max_lifetime)
                                        / self.generate_variables['step_unit'])
 
             victims[i] = Victim(self.flood_id, self.victim_id, victim_size, victim_lifetime, location, True)
