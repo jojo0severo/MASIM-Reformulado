@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0f115ece-2b46-4efe-b166-556b10856827" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/exp_scripts/process_time_pass.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/exp_scripts/process_time_search.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py" afterDir="false" />
     </list>
+    <ignored mask="*.zip" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,11 +14,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/experiments/exp_scripts/process_time_tester.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/test_analyze_photo_action.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="58" column="28" lean-forward="true" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
+            <state relative-caret-position="361">
+              <caret line="19" column="35" lean-forward="true" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="131">
+              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -51,6 +65,8 @@
       <find>psutil</find>
       <find>self.log</find>
       <find>start_processes</find>
+      <find>generate_victims_in_propagation</find>
+      <find>generate_victims</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -83,6 +99,8 @@
         <option value="$PROJECT_DIR$/experiments/exp_scripts/process_time_pass.py" />
         <option value="$PROJECT_DIR$/experiments/exp_scripts/process_time_search.py" />
         <option value="$PROJECT_DIR$/experiments/exp_scripts/process_time_tester.py" />
+        <option value="$PROJECT_DIR$/src/tests/integration/test_agents/connect_agent_function.py" />
+        <option value="$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py" />
       </list>
     </option>
   </component>
@@ -109,17 +127,6 @@
             <path>
               <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
               <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
-              <item name="experiments" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
-              <item name="experiments" type="462c0819:PsiDirectoryNode" />
-              <item name="exp_scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -127,6 +134,21 @@
               <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="execution" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="simulation_engine" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="simulation_engine" type="462c0819:PsiDirectoryNode" />
+              <item name="generator" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -148,16 +170,16 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/files" />
-      <recent name="$PROJECT_DIR$/src/tests/unity/simulation" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/experiments" />
       <recent name="$PROJECT_DIR$/experiments/exp_scripts/util" />
       <recent name="$PROJECT_DIR$/experiments/scritps" />
       <recent name="$PROJECT_DIR$/src/execution/monitor_engine/helpers" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/files" />
+      <recent name="$PROJECT_DIR$/src/tests/unity/simulation" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -233,7 +255,7 @@
       <workItem from="1590520501879" duration="1549000" />
       <workItem from="1590528474536" duration="665000" />
       <workItem from="1590529888906" duration="2552000" />
-      <workItem from="1591131329045" duration="1551000" />
+      <workItem from="1591131329045" duration="3299000" />
     </task>
     <task id="LOCAL-00001" summary="Removed simulation API.&#10;&#10;Both simulation and api are the same now. Monitor is next.">
       <created>1585511630805</created>
@@ -312,17 +334,58 @@
       <option name="project" value="LOCAL" />
       <updated>1590521801124</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Removed file duplication">
+      <created>1591137132472</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1591137132473</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Minor changes">
+      <created>1591137158635</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1591137158635</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Removed duplication">
+      <created>1591138431134</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1591138431134</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Removed bugs">
+      <created>1591138477473</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1591138477473</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fixed typos">
+      <created>1591138494320</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1591138494320</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Increased performance">
+      <created>1591138508308</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1591138508308</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22854000" />
+    <option name="totallyTimeSpent" value="24602000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23458445" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23458445" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -333,7 +396,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.37482318" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" visible="true" weight="0.37482318" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.37340876" />
@@ -383,7 +446,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removed simulation API.&#10;&#10;Both simulation and api are the same now. Monitor is next." />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Removed simulation file" />
     <MESSAGE value="Updated .gitignore" />
     <MESSAGE value="Merged monitor into API class" />
@@ -392,7 +454,13 @@
     <MESSAGE value="Removing the use of different thread" />
     <MESSAGE value="Fixed bugs" />
     <MESSAGE value="Implemented log download" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented log download" />
+    <MESSAGE value="Removed file duplication" />
+    <MESSAGE value="Minor changes" />
+    <MESSAGE value="Removed duplication" />
+    <MESSAGE value="Removed bugs" />
+    <MESSAGE value="Fixed typos" />
+    <MESSAGE value="Increased performance" />
+    <option name="LAST_COMMIT_MESSAGE" value="Increased performance" />
   </component>
   <component name="WindowStateProjectService">
     <state x="372" y="391" key="com.intellij.ide.util.TipDialog" />
@@ -413,17 +481,6 @@
     <SUITE FILE_PATH="coverage/MASiRe$start_system.coverage" NAME="start_system Coverage Results" MODIFIED="1590521325268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/docs/API_structure.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/watch.py" />
-    <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/logger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-82">
-          <caret line="18" column="19" lean-forward="true" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/asset_request_manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
@@ -492,29 +549,10 @@
         <state relative-caret-position="-342" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/test_analyze_photo_action.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/simulation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="428">
           <caret line="155" column="37" selection-start-line="155" selection-start-column="37" selection-end-line="155" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/map.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-798">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -523,15 +561,6 @@
         <state relative-caret-position="-171">
           <folding>
             <element signature="e#0#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -649,13 +678,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents_actions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/flask_restful/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1654">
@@ -770,6 +792,60 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="58" column="28" lean-forward="true" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/connect_agent_function.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents_actions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-405">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/test_analyze_photo_action.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="35" lean-forward="true" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/simulation_objects/social_asset_marker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/simulation_objects/flood.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="104" selection-start-line="3" selection-start-column="100" selection-end-line="3" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/map.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="337" column="8" selection-start-line="337" selection-start-column="8" selection-end-line="337" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

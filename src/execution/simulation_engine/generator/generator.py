@@ -43,11 +43,14 @@ class Generator:
         steps_number: int = self.general_map_variables['steps']
         events = [0] * steps_number
 
+        vict_amount: int = random.randint(self.generate_variables['victim']['minAmount'],
+                                     self.generate_variables['victim']['maxAmount'])
+
         flood, propagation = self.generate_flood()
         nodes: list = flood.list_of_nodes
         event: dict = {
             'flood': flood,
-            'victims': self.generate_victims(nodes),
+            'victims': self.generate_victims(nodes, vict_amount),
             'water_samples': self.generate_water_samples(nodes),
             'photos': self.generate_photos(nodes),
             'propagation': propagation
@@ -63,7 +66,7 @@ class Generator:
             if random.randint(1, 100) <= flood_probability:
                 event['flood'], propagation = self.generate_flood()
                 nodes: list = event['flood'].list_of_nodes
-                event['victims']: list = self.generate_victims(nodes)
+                event['victims']: list = self.generate_victims(nodes, vict_amount)
                 event['water_samples']: list = self.generate_water_samples(nodes)
                 event['photos']: list = self.generate_photos(nodes)
                 event['propagation']: list = propagation
@@ -123,6 +126,10 @@ class Generator:
             victim_probability: int = prop_info['victimsPerPropagationProbability']
             old_nodes: list = list_of_nodes
 
+            propag_amount: int = random.randint(
+                self.generate_variables['flood']['propagationInfo']['minVictimsPerPropagation'],
+                self.generate_variables['flood']['propagationInfo']['maxVictimsPerPropagation'])
+
             for prop in range(int(((prop_info['maxPropagation'] / 100) * dimensions['radius'] / propagation_per_step))):
                 new_nodes = self.map.nodes_in_radius(dimensions['location'],
                                                      dimensions['radius'] + propagation_per_step * prop)
@@ -130,9 +137,9 @@ class Generator:
 
                 if random.randint(0, 100) < victim_probability:
                     if difference:
-                        propagation.append(self.generate_victims_in_propagation(difference))
+                        propagation.append(self.generate_victims(difference, propag_amount))
                     else:
-                        propagation.append(self.generate_victims_in_propagation(new_nodes))
+                        propagation.append(self.generate_victims(new_nodes, propag_amount))
 
                 nodes_propagation.append(difference)
                 old_nodes = new_nodes
@@ -174,31 +181,11 @@ class Generator:
 
         return photos
 
-    def generate_victims(self, nodes: list) -> list:
+    def generate_victims(self, nodes: list, amount: int) -> list:
         """Generate a list of victims.
 
         :return list: List of all the victims generated"""
 
-        amount: int = random.randint(self.generate_variables['victim']['minAmount'],
-                                     self.generate_variables['victim']['maxAmount'])
-        victims: list = [0] * amount
-        i: int = 0
-        while i < amount:
-            victim_size: int = random.randint(self.victim_min_size, self.victim_max_size)
-            victim_lifetime: int = int(random.randint(self.victim_min_lifetime, self.victim_max_lifetime)
-                                       / self.generate_variables['step_unit'])
-
-            victim_location: tuple = self.map.get_node_coord(random.choice(nodes))
-
-            victims[i] = Victim(self.flood_id, self.victim_id, victim_size, victim_lifetime, victim_location, False)
-            self.victim_id = self.victim_id + 1
-            i += 1
-
-        return victims
-
-    def generate_victims_in_propagation(self, nodes: list) -> list:
-        amount: int = random.randint(self.generate_variables['flood']['propagationInfo']['minVictimsPerPropagation'],
-                                     self.generate_variables['flood']['propagationInfo']['maxVictimsPerPropagation'])
         victims: list = [0] * amount
         i: int = 0
         while i < amount:
