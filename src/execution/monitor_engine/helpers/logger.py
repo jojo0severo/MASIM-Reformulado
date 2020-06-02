@@ -1,3 +1,6 @@
+from simulation_engine.exceptions.exceptions import FailedSingleton
+
+
 class Logger:
     __instance = None
     TAG_NORMAL = 'NORMAL'
@@ -11,7 +14,7 @@ class Logger:
 
     def __init__(self):
         if Logger.__instance is not None:
-            raise Exception('THis class is a singleton!')
+            raise FailedSingleton('This class is a singleton!')
         else:
             Logger.__instance = self
 
