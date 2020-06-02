@@ -20,7 +20,6 @@ from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_restful import Api
 from communication.controllers.controller import Controller
 from communication.helpers import json_formatter
-from communication.helpers.logger import Logger
 from simulation_engine.json_formatter import JsonFormatter
 from monitor_engine.helpers.logger import Logger
 from monitor_engine.controllers.monitor_manager import MonitorManager
@@ -50,6 +49,8 @@ percepts_event = 'percepts'
 end_event = 'end'
 bye_event = 'bye'
 error_event = 'error'
+SIM_NOT_ON = 'Simulation is not online.'
+ERROR = 'Error.'
 
 
 @app.after_request
@@ -189,7 +190,7 @@ def connect_agent():
     If the agent is successfully connected, the simulation will return its token, any errors, it will return the error
     message and the corresponding status."""
 
-    response = {'status': 1, 'result': True, 'message': 'Error.'}
+    response = {'status': 1, 'result': True, 'message': ERROR}
     connecting_agent = True
 
     if controller.processing_asset_request():
@@ -228,7 +229,7 @@ def register_agent(msg):
 
     Note: The agent must be registered to connect the socket."""
 
-    response = {'type': 'initial_percepts', 'status': 0, 'result': False, 'message': 'Error.'}
+    response = {'type': 'initial_percepts', 'status': 0, 'result': False, 'message': ERROR}
     registering_agent = True
 
     if controller.processing_asset_request():
@@ -291,7 +292,7 @@ def register_agent(msg):
 
         except requests.exceptions.ConnectionError:
             response['status'] = 6
-            msgs = 'Simulation is not online.'
+            msgs = SIM_NOT_ON
             response['message'] = msgs
 
     else:
@@ -394,8 +395,6 @@ def finish_step():
     except requests.exceptions.ConnectionError:
         Logger.critical('Error to process the agents actions.')
 
-        pass
-
     return jsonify(0)
 
 
@@ -452,7 +451,7 @@ def send_action_temp(msg):
 
         Note: The actions are stored and only used when the step is finished and the simulation process it."""
 
-    response = {'status': 1, 'result': True, 'message': 'Error.'}
+    response = {'status': 1, 'result': True, 'message': ERROR}
     status, message = controller.do_action(msg)
 
     if status != 1:
@@ -484,7 +483,7 @@ def disconnect_registered_agent(msg):
 
     The agent is removed from the API and will not be able to connect of send actions to it."""
 
-    response = {'status': 0, 'result': False, 'message': 'Error.'}
+    response = {'status': 0, 'result': False, 'message': ERROR}
 
     status, message = controller.do_agent_socket_disconnection(msg)
 
@@ -504,7 +503,7 @@ def disconnect_registered_agent(msg):
             response['message'] = 'An internal error occurred at the simulation.'
 
         except requests.exceptions.ConnectionError:
-            msgs = 'Simulation is not online.'
+            msgs = SIM_NOT_ON
             response['message'] = msgs
 
     Logger.normal(f'Disconnect a agent, message: {message}')
@@ -518,7 +517,7 @@ def disconnect_registered_asset(msg):
 
     The social asset is removed from the API and will not be able to connect of send actions to it."""
 
-    response = {'status': 0, 'result': False, 'message': 'Error.'}
+    response = {'status': 0, 'result': False, 'message': ERROR}
 
     status, message = controller.do_social_asset_socket_disconnection(msg)
 
@@ -538,7 +537,7 @@ def disconnect_registered_asset(msg):
             response['message'] = 'An internal error occurred at the simulation.'
 
         except requests.exceptions.ConnectionError:
-            msgs = 'Simulation is not online.'
+            msgs = SIM_NOT_ON
             response['message'] = msgs
 
     return json.dumps(response, sort_keys=False)
@@ -546,16 +545,17 @@ def disconnect_registered_asset(msg):
 
 @app.route('/download', methods=['GET'])
 def download_logs():
+    log_file_name = 'logs.zip'
     full_path = pathlib.Path(__file__).parents[2]
-    print(str((full_path / 'logs.zip').absolute()))
+    print(str((full_path / log_file_name).absolute()))
     try:
-        os.remove(str((full_path / 'logs.zip').absolute()))
+        os.remove(str((full_path / log_file_name).absolute()))
     except FileNotFoundError:
         pass
 
     path = formatter.save_logs() / '*'
 
-    zip_obj = zipfile.ZipFile('logs.zip', 'w')
+    zip_obj = zipfile.ZipFile(log_file_name, 'w')
 
     for file in glob(str(path.absolute())):
         if '/' in str(file):
@@ -567,7 +567,7 @@ def download_logs():
 
     zip_obj.close()
 
-    return send_from_directory(directory=str(full_path.absolute()), filename='logs.zip', cache_timeout=0)
+    return send_from_directory(directory=str(full_path.absolute()), filename=log_file_name, cache_timeout=0)
 
 
 def send_initial_percepts(token, info):
@@ -609,7 +609,6 @@ def notify_monitor(event, response):
 
     else:
         Logger.error('Event type in "notify monitor" not found.')
-
 
 
 def notify_actors(event, response):
