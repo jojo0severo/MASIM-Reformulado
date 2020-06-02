@@ -327,11 +327,7 @@ class Map:
         events_in_range = []
 
         for event in events:
-            if self.euclidean_distance(start_coord, event['location']) < event['radius']:
-                events_in_range.append(event)
-
-            elif self.euclidean_distance(end_coord, event['location']) < event['radius']:
-                events_in_range.append(event)
+            events_in_range.append(event)
 
         return events_in_range
 
@@ -351,13 +347,8 @@ class Map:
 
     def is_out(self, node):
         result = False
-        if node[0] <= self.map_config['minLat']:
-            result = True
-        elif node[0] >= self.map_config['maxLat']:
-            result = True
-        elif node[1] <= self.map_config['minLon']:
-            result = True
-        elif node[1] >= self.map_config['maxLon']:
+        if node[0] <= self.map_config['minLat'] or node[0] >= self.map_config['maxLat'] or node[1] <= self.map_config[
+            'minLon'] or node[1] >= self.map_config['maxLon']:
             result = True
 
         return result
