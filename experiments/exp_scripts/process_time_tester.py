@@ -81,7 +81,7 @@ class TestTime:
             try:
                 self.socket.connect(self.api_url)
                 connected = True
-            except:
+            except Exception:
                 time.sleep(1)
     
         self.log(f'{self.exp_name}_{agents_amount}_{prob}', 'Start simulator process.')
