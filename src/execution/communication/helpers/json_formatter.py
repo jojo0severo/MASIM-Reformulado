@@ -126,7 +126,7 @@ def percepts_monitor_format(response):
     actors = []
     for actor in response['actors']:
         if 'agent' in actor:
-            actors.append(monitor_agent_info(actor['agent']))
+            actors.append(agent_variables(actor['agent']))
         else:
             actors.append(monitor_asset_info(actor['asset']))
 
@@ -145,54 +145,6 @@ def bye_monitor_format(response):
 
 def event_error_monitor_format(message):
     return {'message': f'{message}Possible internal error.'}
-
-
-def monitor_agent_info(agent):
-    physical_storage_vector = []
-
-    for item in agent['physical_storage_vector']:
-        if item['type'] == 'agent':
-            json_agent = {
-                'token': item['token'],
-                'role': item['role']
-            }
-
-            physical_storage_vector.append(json_agent)
-        elif item['type'] == 'asset':
-            json_asset = {
-                'token': item['token'],
-                'profession': item['profession']
-            }
-
-            physical_storage_vector.append(json_asset)
-
-        else:
-            physical_storage_vector.append(item)
-
-    return {
-        'token': agent['token'],
-        'active': agent['active'],
-        'last_action': agent['last_action'],
-        'last_action_result': agent['last_action_result'],
-        'location': agent['location'],
-        'route': agent['route'],
-        'destination_distance': agent['destination_distance'],
-        'battery': agent['battery'],
-        'physical_storage': agent['physical_storage'],
-        'physical_storage_vector': physical_storage_vector,
-        'virtual_storage': agent['virtual_storage'],
-        'virtual_storage_vector': agent['virtual_storage_vector'],
-        'social_assets': agent['social_assets'],
-        'type': agent['type'],
-        'role': agent['role'],
-        'abilities': agent['abilities'],
-        'resources': agent['resources'],
-        'max_charge': agent['max_charge'],
-        'speed': agent['speed'],
-        'size': agent['size'],
-        'physical_capacity': agent['physical_capacity'],
-        'virtual_capacity': agent['virtual_capacity']
-    }
 
 
 def monitor_asset_info(asset):
@@ -252,7 +204,16 @@ def agent_variables(agent):
         'physical_storage_vector': physical_storage_vector,
         'virtual_storage': agent['virtual_storage'],
         'virtual_storage_vector': agent['virtual_storage_vector'],
-        'social_assets': agent['social_assets']
+        'social_assets': agent['social_assets'],
+        'type': agent['type'],
+        'role': agent['role'],
+        'abilities': agent['abilities'],
+        'resources': agent['resources'],
+        'max_charge': agent['max_charge'],
+        'speed': agent['speed'],
+        'size': agent['size'],
+        'physical_capacity': agent['physical_capacity'],
+        'virtual_capacity': agent['virtual_capacity']
     }
 
 

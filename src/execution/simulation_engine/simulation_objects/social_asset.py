@@ -51,6 +51,12 @@ class SocialAsset:
         self.physical_storage -= size
         self.physical_storage_vector.append(item)
 
+    def clear_virtual_storage(self):
+        """Clear the virtual storage vector and restore the virtual storage to its full capacity."""
+
+        self.virtual_storage_vector.clear()
+        self.virtual_storage = self.virtual_capacity
+
     def add_virtual_item(self, item):
         """Add a virtual item to the storage of the social asset.
 
@@ -100,6 +106,12 @@ class SocialAsset:
             self.physical_storage += removed_item.size
 
         return removed_items
+
+    def clear_physical_storage(self):
+        """Clear the physical storage vector and restore the physical storage to its full capacity."""
+
+        self.physical_storage_vector.clear()
+        self.physical_storage = self.physical_capacity
 
     def remove_agent_item(self, token):
         """Remove a agent from the agent physical vector.
@@ -158,18 +170,6 @@ class SocialAsset:
             self.virtual_storage += removed_item.size
 
         return removed_items
-
-    def clear_physical_storage(self):
-        """Clear the physical storage vector and restore the physical storage to its full capacity."""
-
-        self.physical_storage_vector.clear()
-        self.physical_storage = self.physical_capacity
-
-    def clear_virtual_storage(self):
-        """Clear the virtual storage vector and restore the virtual storage to its full capacity."""
-
-        self.virtual_storage_vector.clear()
-        self.virtual_storage = self.virtual_capacity
 
     def disconnect(self):
         """Disconnect the social asset.
