@@ -26,6 +26,20 @@
         #log {
             resize:vertical;
         }
+        #abutton {
+            margin-top: 5px;
+            margin-left: 6.8px;
+            font-family: Arial;
+            width: 274.1px;
+            height: 14px;
+            text-decoration: none;
+            display: block;
+            color: black;
+            font-size: 13.3px;
+            background: #f0f0f0;
+            padding: 7px;
+            text-align: center;
+        }
     </style>
 </head> 
 <body>
@@ -109,7 +123,8 @@
 
                 <div id="log-box">
                     <button id="btn-log" onclick="setLog()">Hide log</button>
-                    <a href="{{ url_for('download_logs') }}">Download logs</a>
+                    <br>
+                    <a id="abutton" href="{{ url_for('download_logs') }}">Download logs</a>
                     <br>
                     <textarea id="log"></textarea>
                 </div>
