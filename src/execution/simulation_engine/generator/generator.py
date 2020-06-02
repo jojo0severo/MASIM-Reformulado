@@ -73,7 +73,7 @@ class Generator:
 
         return events
 
-    def generate_flood(self) -> Flood:
+    def generate_flood(self) -> tuple:
         """Generate one flood.
 
         Note: The only shape available currently is the circle.
@@ -268,8 +268,8 @@ class Generator:
 
         i: int = 0
         while i < amount:
-            location: list = [random.uniform(min_lat, max_lat),
-                              random.uniform(min_lon, max_lon)]
+            location: tuple = (random.uniform(min_lat, max_lat),
+                               random.uniform(min_lon, max_lon))
             profession: str = random.choice(self.generate_variables['socialAsset']['professions'])
             abilities = self.generate_assets_variables[profession]['abilities']
             resources = self.generate_assets_variables[profession]['resources']
