@@ -18,12 +18,12 @@ from multiprocessing import Queue
 from flask_socketio import SocketIO
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_restful import Api
-from communication.controllers.controller import Controller
-from communication.helpers import json_formatter
-from simulation_engine.json_formatter import JsonFormatter
-from monitor_engine.helpers.logger import Logger
-from monitor_engine.controllers.monitor_manager import MonitorManager
-from monitor_engine.resources.manager import SimulationManager, MatchInfoManager, MatchStepManager, record_simulation
+from src.execution.communication.controllers.controller import Controller
+from src.execution.communication.helpers import json_formatter
+from src.execution.simulation_engine.json_formatter import JsonFormatter
+from src.execution.logger import Logger
+from src.execution.monitor_engine.controllers.monitor_manager import MonitorManager
+from src.execution.monitor_engine.resources.manager import SimulationManager, MatchInfoManager, MatchStepManager, record_simulation
 
 (base_url, port, step_time, first_step_time, method, log, social_assets_timeout, secret, config_path,
  load_sim, write_sim, replay, record, agents_amount) = sys.argv[1:]

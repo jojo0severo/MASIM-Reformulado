@@ -4,15 +4,41 @@ import json
 import pathlib
 from math import sqrt
 
-from simulation_engine.exceptions.exceptions import *
-from simulation_engine.generator.generator import Generator
-from simulation_engine.loader.loader import Loader
-from simulation_engine.simulation_helpers.agents_manager import AgentsManager
-from simulation_engine.simulation_helpers.map import Map
-from simulation_engine.simulation_helpers.social_assets_manager import SocialAssetsManager
+from src.execution.simulation_engine.exceptions.exceptions import FailedCapacity
+from src.execution.simulation_engine.exceptions.exceptions import FailedInsufficientBattery
+from src.execution.simulation_engine.exceptions.exceptions import FailedInvalidKind
+from src.execution.simulation_engine.exceptions.exceptions import FailedItemAmount
+from src.execution.simulation_engine.exceptions.exceptions import FailedLocation
+from src.execution.simulation_engine.exceptions.exceptions import FailedNoMatch
+from src.execution.simulation_engine.exceptions.exceptions import FailedNoRoute
+from src.execution.simulation_engine.exceptions.exceptions import FailedNoSocialAsset
+from src.execution.simulation_engine.exceptions.exceptions import FailedParameterType
+from src.execution.simulation_engine.exceptions.exceptions import FailedSocialAssetRequest
+from src.execution.simulation_engine.exceptions.exceptions import FailedUnknownFacility
+from src.execution.simulation_engine.exceptions.exceptions import FailedUnknownItem
+from src.execution.simulation_engine.exceptions.exceptions import FailedUnknownToken
+from src.execution.simulation_engine.exceptions.exceptions import FailedWrongParam
+from src.execution.simulation_engine.exceptions.exceptions import FailedUserToken
+from src.execution.simulation_engine.generator.generator import Generator
+from src.execution.simulation_engine.loader.loader import Loader
+from src.execution.simulation_engine.simulation_helpers.agents_manager import AgentsManager
+from src.execution.simulation_engine.simulation_helpers.map import Map
+from src.execution.simulation_engine.simulation_helpers.social_assets_manager import SocialAssetsManager
 
 
 class Cycle:
+    WRONG_ACTION_NAME = 'Wrong action name given.'
+    WRONG_PARAM_AMOUNT = 'More or less than 1 parameter was given.'
+    TOKEN_NOT_FOUND = 'Given token was not found.'
+    FAILED_MATCH_RECEIVE = 'No other agent or social asset wants to receive virtual items.'
+    UNKNOWN_ERROR = 'Unknown error: '
+    LESS_PARAM_GIVEN = 'Less than 1 parameter was given.'
+    MORE_PARAM_GIVEN = 'More than 2 parameters were given.'
+    AGENT_LOCATION_ERROR = 'The agent is not located at the CDM.'
+    AGENT_PROXIMITY_ERROR = 'The agent is not located near the desired agent.'
+    ASSET_PROXIMITY_ERROR = 'The social asset is not located near the desired agent.'
+    PARAMS_GIVEN_ERROR = 'Parameters were given.'
+
     def __init__(self, config, load_sim, write_sim):
         self.map = Map(config['map']['maps'][0], config['map']['proximity'], config['map']['movementRestrictions'])
         self.actions = config['actions']
@@ -105,10 +131,10 @@ class Cycle:
 
     def connect_social_asset(self, main_token, token):
         if main_token not in self.agents_manager.get_tokens():
-            raise Exception(f'"{main_token}" token not exists.')
+            raise FailedUserToken(f'"{main_token}" token not exists.')
 
         if main_token not in self.social_assets_manager.requests.keys():
-            raise Exception(f'"{main_token}" dont request a social asset.')
+            raise FailedUserToken(f'"{main_token}" haven\'t requested a social asset.')
 
         social_asset_id = self.social_assets_manager.requests[main_token]
         social_asset = None
@@ -337,7 +363,7 @@ class Cycle:
 
         if action_name not in self.actions:
             self.agents_manager.edit(token, 'last_action_result', 'unknownAction')
-            return {'agent': self.agents_manager.get(token), 'message': 'Wrong action name given.'}, secondary_result
+            return {'agent': self.agents_manager.get(token), 'message': self.WRONG_ACTION_NAME}, secondary_result
 
         if not self.agents_manager.get(token).is_active and not self.agents_manager.get(
                 token).last_action == 'deliverRequest':
@@ -391,7 +417,7 @@ class Cycle:
                         raise FailedNoMatch('No other agent or social asset wants to be carried.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
             elif action_name == 'getCarried':
                 if len(parameters) == 1:
@@ -425,14 +451,13 @@ class Cycle:
                         raise FailedNoMatch('No other agent or social asset wants to carry.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
             elif action_name == 'deliverPhysical':
                 if len(parameters) == 3:
                     match = None
                     for sub_token, sub_action, sub_param in special_action_tokens:
-                        if len(sub_param) == 1:
-                            if sub_token == parameters[2] and sub_action == 'receivePhysical' and sub_param[0] == token:
+                        if len(sub_param) == 1 and sub_token == parameters[2] and sub_action == 'receivePhysical' and sub_param[0] == token:
                                 match = [sub_token, sub_action, sub_param]
                                 break
 
@@ -453,7 +478,7 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
                         raise FailedNoMatch('No other agent or social asset wants to receive physical items.')
@@ -486,10 +511,10 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
-                        raise FailedNoMatch('No other agent or social asset wants to receive virtual items.')
+                        raise FailedNoMatch(self.FAILED_MATCH_RECEIVE)
 
                 else:
                     self._deliver_virtual_agent_cdm(token, parameters)
@@ -521,10 +546,10 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
-                        raise FailedNoMatch('No other agent or social asset wants to receive virtual items.')
+                        raise FailedNoMatch(self.FAILED_MATCH_RECEIVE)
 
                 else:
                     raise FailedWrongParam('More than 1 parameter was given.')
@@ -556,10 +581,10 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
-                        raise FailedNoMatch('No other agent or social asset wants to receive virtual items.')
+                        raise FailedNoMatch(self.FAILED_MATCH_RECEIVE)
 
                 else:
                     raise FailedWrongParam('More than 1 parameter was given.')
@@ -595,13 +620,13 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
                         raise FailedNoMatch('No other agent or social asset wants be delivered.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
             elif action_name == 'deliverRequest':
                 if len(parameters) == 1:
@@ -634,13 +659,13 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
                         raise FailedNoMatch('No other agent or social asset wants deliver the agent.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
         except FailedCapacity as e:
             last_action_result = e.identifier
@@ -668,14 +693,14 @@ class Cycle:
 
         except Exception as e:
             last_action_result = 'unknownError'
-            error_message = 'Unknown error: ' + str(e)
+            error_message = self.UNKNOWN_ERROR + str(e)
 
         self.agents_manager.edit(token, 'last_action_result', last_action_result)
         return {'agent': self.agents_manager.get(token), 'message': error_message}, secondary_result
 
     def _deliver_agent_agent(self, token, parameters):
         if len(parameters) < 1:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         if len(parameters) > 1:
             raise FailedWrongParam('More than 1 parameters were given.')
@@ -703,7 +728,7 @@ class Cycle:
 
     def _deliver_agent_asset(self, token, parameters):
         if len(parameters) < 1:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         if len(parameters) > 1:
             raise FailedWrongParam('More than 1 parameters were given.')
@@ -736,7 +761,7 @@ class Cycle:
         if action_name not in self.actions:
             self.social_assets_manager.edit(token, 'last_action_result', 'unknownAction')
             return {'social_asset': self.social_assets_manager.get(token),
-                    'message': 'Wrong action name given.'}, secondary_result
+                    'message': self.WRONG_ACTION_NAME}, secondary_result
 
         if not self.social_assets_manager.get(token).is_active:
             self.social_assets_manager.edit(token, 'last_action_result', 'agentNoActive')
@@ -794,7 +819,7 @@ class Cycle:
                         raise FailedNoMatch('No other agent or social asset wants to be carried.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
             elif action_name == 'getCarried':
                 if len(parameters) == 1:
@@ -828,7 +853,7 @@ class Cycle:
                         raise FailedNoMatch('No other agent or social asset wants to carry.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
             elif action_name == 'deliverPhysical':
                 if len(parameters) == 3:
@@ -856,7 +881,7 @@ class Cycle:
                             special_action_tokens.remove(match)
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
                         raise FailedNoMatch('No other agent or social asset wants to receive physical items.')
@@ -890,10 +915,10 @@ class Cycle:
                             special_action_tokens.remove(match)
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
-                        raise FailedNoMatch('No other agent or social asset wants to receive virtual items.')
+                        raise FailedNoMatch(self.FAILED_MATCH_RECEIVE)
 
                 else:
                     self._deliver_virtual_asset_cdm(token, parameters)
@@ -926,10 +951,10 @@ class Cycle:
                             special_action_tokens.remove(match)
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
-                        raise FailedNoMatch('No other agent or social asset wants to receive virtual items.')
+                        raise FailedNoMatch(self.FAILED_MATCH_RECEIVE)
 
             elif action_name == 'receiveVirtual':
                 if len(parameters) == 1:
@@ -959,10 +984,10 @@ class Cycle:
                             special_action_tokens.remove(match)
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
-                        raise FailedNoMatch('No other agent or social asset wants to receive virtual items.')
+                        raise FailedNoMatch(self.FAILED_MATCH_RECEIVE)
 
             elif action_name == 'deliverAgent':
                 if len(parameters) == 1:
@@ -989,13 +1014,13 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
                         raise FailedNoMatch('No other agent or social asset wants be delivered.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
             elif action_name == 'deliverRequest':
                 if len(parameters) == 1:
@@ -1023,13 +1048,13 @@ class Cycle:
                             }
 
                         else:
-                            raise FailedUnknownToken('Given token was not found.')
+                            raise FailedUnknownToken(self.TOKEN_NOT_FOUND)
 
                     else:
                         raise FailedNoMatch('No other agent or social asset wants deliver the agent.')
 
                 else:
-                    raise FailedWrongParam('More or less than 1 parameter was given.')
+                    raise FailedWrongParam(self.WRONG_PARAM_AMOUNT)
 
         except FailedCapacity as e:
             last_action_result = e.identifier
@@ -1061,17 +1086,17 @@ class Cycle:
 
         except Exception as e:
             last_action_result = 'unknownError'
-            error_message = 'Unknown error: ' + str(e)
+            error_message = self.UNKNOWN_ERROR + str(e)
 
         self.social_assets_manager.edit(token, 'last_action_result', last_action_result)
         return {'social_asset': self.social_assets_manager.get(token), 'message': error_message}, secondary_result
 
     def _deliver_physical_agent_cdm(self, token, parameters):
         if len(parameters) < 1:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         if len(parameters) > 2:
-            raise FailedWrongParam('More than 2 parameters were given.')
+            raise FailedWrongParam(self.MORE_PARAM_GIVEN)
 
         agent = self.agents_manager.get(token)
         if self.map.check_location(agent.location, self.cdm_location):
@@ -1089,7 +1114,7 @@ class Cycle:
             })
 
         else:
-            raise FailedLocation('The agent is not located at the CDM.')
+            raise FailedLocation(self.AGENT_LOCATION_ERROR)
 
     def _deliver_physical_agent_agent(self, token, parameters):
         delivering_agent = self.agents_manager.get(token)
@@ -1112,7 +1137,7 @@ class Cycle:
             self.agents_manager.edit(receiving_agent.token, 'last_action_result', 'success')
 
         else:
-            raise FailedLocation('The agent is not located near the desired agent.')
+            raise FailedLocation(self.AGENT_PROXIMITY_ERROR)
 
     def _deliver_physical_agent_asset(self, token, parameters):
         delivering_agent = self.agents_manager.get(token)
@@ -1139,10 +1164,10 @@ class Cycle:
 
     def _deliver_physical_asset_cdm(self, token, parameters):
         if len(parameters) < 1:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         if len(parameters) > 2:
-            raise FailedWrongParam('More than 2 parameters were given.')
+            raise FailedWrongParam(self.MORE_PARAM_GIVEN)
 
         asset = self.social_assets_manager.get(token)
         if self.map.check_location(asset.location, self.cdm_location):
@@ -1182,7 +1207,7 @@ class Cycle:
             self.agents_manager.edit(receiving_agent.token, 'last_action_result', 'success')
 
         else:
-            raise FailedLocation('The social asset is not located near the desired agent.')
+            raise FailedLocation(self.ASSET_PROXIMITY_ERROR)
 
     def _deliver_physical_asset_asset(self, token, parameters):
         delivering_asset = self.social_assets_manager.get(token)
@@ -1209,10 +1234,10 @@ class Cycle:
 
     def _deliver_virtual_agent_cdm(self, token, parameters):
         if len(parameters) < 1:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         if len(parameters) > 2:
-            raise FailedWrongParam('More than 2 parameters were given.')
+            raise FailedWrongParam(self.MORE_PARAM_GIVEN)
 
         agent = self.agents_manager.get(token)
         if self.map.check_location(agent.location, self.cdm_location):
@@ -1229,7 +1254,7 @@ class Cycle:
                 'step': self.current_step})
 
         else:
-            raise FailedLocation('The agent is not located at the CDM.')
+            raise FailedLocation(self.AGENT_LOCATION_ERROR)
 
     def _deliver_virtual_agent_agent(self, token, parameters):
         delivering_agent = self.agents_manager.get(token)
@@ -1252,7 +1277,7 @@ class Cycle:
             self.agents_manager.edit(receiving_agent.token, 'last_action_result', 'success')
 
         else:
-            raise FailedLocation('The agent is not located near the desired agent.')
+            raise FailedLocation(self.AGENT_PROXIMITY_ERROR)
 
     def _deliver_virtual_agent_asset(self, token, parameters):
         delivering_agent = self.agents_manager.get(token)
@@ -1274,14 +1299,14 @@ class Cycle:
             self.social_assets_manager.edit(receiving_asset.token, 'last_action', 'receiveVirtual')
             self.social_assets_manager.edit(receiving_asset.token, 'last_action_result', 'success')
         else:
-            raise FailedLocation('The agent is not located near the desired agent.')
+            raise FailedLocation(self.AGENT_PROXIMITY_ERROR)
 
     def _deliver_virtual_asset_cdm(self, token, parameters):
         if len(parameters) < 1:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         if len(parameters) > 2:
-            raise FailedWrongParam('More than 2 parameters were given.')
+            raise FailedWrongParam(self.MORE_PARAM_GIVEN)
 
         asset = self.social_assets_manager.get(token)
         if self.map.check_location(asset.location, self.cdm_location):
@@ -1319,7 +1344,7 @@ class Cycle:
             self.agents_manager.edit(receiving_agent.token, 'last_action', 'receiveVirtual')
             self.agents_manager.edit(receiving_agent.token, 'last_action_result', 'success')
         else:
-            raise FailedLocation('The social asset is not located near the desired agent.')
+            raise FailedLocation(self.ASSET_PROXIMITY_ERROR)
 
     def _deliver_virtual_asset_asset(self, token, parameters):
         delivering_asset = self.social_assets_manager.get(token)
@@ -1342,7 +1367,7 @@ class Cycle:
             self.social_assets_manager.edit(receiving_asset.token, 'last_action_result', 'success')
 
         else:
-            raise FailedLocation('The social asset is not located near the desired agent.')
+            raise FailedLocation(self.ASSET_PROXIMITY_ERROR)
 
     def _execute_agent_action(self, token, action_name, parameters):
         self.agents_manager.edit(token, 'last_action', action_name)
@@ -1354,7 +1379,7 @@ class Cycle:
 
         if action_name not in self.actions:
             self.agents_manager.edit(token, 'last_action_result', 'unknownAction')
-            return {'agent': self.agents_manager.get(token), 'message': 'Wrong action name given.'}
+            return {'agent': self.agents_manager.get(token), 'message': self.WRONG_ACTION_NAME}
 
         if not self.agents_manager.get(token).is_active:
             self.agents_manager.edit(token, 'last_action_result', 'agentNotActive')
@@ -1449,7 +1474,7 @@ class Cycle:
 
         except Exception as e:
             last_action_result = 'unknownError'
-            error_message = 'Unknown error: ' + str(e)
+            error_message = self.UNKNOWN_ERROR + str(e)
 
         self.agents_manager.edit(token, 'last_action_result', last_action_result)
         return {'agent': self.agents_manager.get(token), 'message': error_message}
@@ -1487,7 +1512,7 @@ class Cycle:
             self.social_assets_manager.edit(token, 'last_action_result', 'unknownAction')
             return {
                 'social_asset': self.social_assets_manager.get(token),
-                'message': 'Wrong action name given.'}
+                'message': self.WRONG_ACTION_NAME}
 
         if not self.social_assets_manager.get(token).is_active:
             self.social_assets_manager.edit(token, 'last_action_result', 'agentNotActive')
@@ -1574,7 +1599,7 @@ class Cycle:
 
         except Exception as e:
             last_action_result = 'unknownError'
-            error_message = 'Unknown error: ' + str(e)
+            error_message = self.UNKNOWN_ERROR + str(e)
 
         self.social_assets_manager.edit(token, 'last_action_result', last_action_result)
         return {'social_asset': self.social_assets_manager.get(token), 'message': error_message}
@@ -1615,13 +1640,13 @@ class Cycle:
 
     def _charge_agent(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         if self.map.check_location(self.agents_manager.get(token).location, self.cdm_location):
             self.agents_manager.charge(token)
 
         else:
-            raise FailedLocation('The agent is not located at the CDM.')
+            raise FailedLocation(self.AGENT_LOCATION_ERROR)
 
     def _move_agent(self, token, parameters):
         if len(parameters) == 1:
@@ -1631,10 +1656,10 @@ class Cycle:
                 raise FailedUnknownFacility('Unknown facility.')
 
         elif len(parameters) <= 0:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         elif len(parameters) > 2:
-            raise FailedWrongParam('More than 2 parameters were given.')
+            raise FailedWrongParam(self.MORE_PARAM_GIVEN)
 
         else:
             destination = parameters
@@ -1700,10 +1725,10 @@ class Cycle:
                 raise FailedUnknownFacility('Unknown facility.')
 
         elif len(parameters) <= 0:
-            raise FailedWrongParam('Less than 1 parameter was given.')
+            raise FailedWrongParam(self.LESS_PARAM_GIVEN)
 
         elif len(parameters) > 2:
-            raise FailedWrongParam('More than 2 parameters were given.')
+            raise FailedWrongParam(self.MORE_PARAM_GIVEN)
 
         else:
             destination = parameters
@@ -1758,7 +1783,7 @@ class Cycle:
 
     def _rescue_victim_agent(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         agent = self.agents_manager.get(token)
 
@@ -1782,7 +1807,7 @@ class Cycle:
 
     def _rescue_victim_asset(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         asset = self.social_assets_manager.get(token)
 
@@ -1806,7 +1831,7 @@ class Cycle:
 
     def _collect_water_agent(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         agent = self.agents_manager.get(token)
         for i in range(self.current_step):
@@ -1821,7 +1846,7 @@ class Cycle:
 
     def _collect_water_asset(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         asset = self.social_assets_manager.get(token)
         for i in range(self.current_step):
@@ -1836,7 +1861,7 @@ class Cycle:
 
     def _take_photo_agent(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         agent = self.agents_manager.get(token)
         for i in range(self.current_step):
@@ -1851,7 +1876,7 @@ class Cycle:
 
     def _take_photo_asset(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         asset = self.social_assets_manager.get(token)
         for i in range(self.current_step):
@@ -1866,7 +1891,7 @@ class Cycle:
 
     def _analyze_photo_agent(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         agent = self.agents_manager.get(token)
         if len(agent.virtual_storage_vector) == 0:
@@ -1885,7 +1910,7 @@ class Cycle:
 
     def _analyze_photo_asset(self, token, parameters):
         if parameters:
-            raise FailedWrongParam('Parameters were given.')
+            raise FailedWrongParam(self.PARAMS_GIVEN_ERROR)
 
         asset = self.social_assets_manager.get(token)
         if len(asset.virtual_storage_vector) == 0:

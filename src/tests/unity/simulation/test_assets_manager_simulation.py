@@ -142,7 +142,7 @@ def test_update_asset_location():
 
 
 def test_clear_asset_physical_storage():
-    for i in range(5):
+    for _ in range(5):
         manager.add_physical('token1', Item(1))
 
     manager.clear_physical_storage('token1')
@@ -150,7 +150,7 @@ def test_clear_asset_physical_storage():
 
 
 def test_clear_asset_virtual_storage():
-    for i in range(5):
+    for _ in range(5):
         manager.add_virtual('token1', Item(1))
 
     manager.clear_virtual_storage('token1')

@@ -176,7 +176,7 @@ def test_update_agent_location():
 
 
 def test_clear_agent_physical_storage():
-    for i in range(5):
+    for _ in range(5):
         manager.add_physical('token1', Item(1))
 
     manager.clear_physical_storage('token1')
@@ -184,7 +184,7 @@ def test_clear_agent_physical_storage():
 
 
 def test_clear_agent_virtual_storage():
-    for i in range(5):
+    for _ in range(5):
         manager.add_virtual('token1', Item(1))
 
     manager.clear_virtual_storage('token1')

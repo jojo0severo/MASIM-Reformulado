@@ -2,8 +2,8 @@ import os
 import re
 import json
 import pathlib
-from simulation_engine.copycat import CopyCat
-from simulation_engine.simulation_helpers.logger import Logger
+from src.execution.simulation_engine.copycat import CopyCat
+from execution.logger import Logger
 
 
 class JsonFormatter:

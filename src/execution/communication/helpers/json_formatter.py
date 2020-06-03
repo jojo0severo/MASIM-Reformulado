@@ -3,6 +3,9 @@
 Note: The response does not have agent or social asset as key until they are processed."""
 
 
+EMPTY_SIM_MESSAGE = 'Empty simulation response. '
+
+
 def initial_percepts_format(response, token):
     info = {'type': 'initial_percepts', 'map_percepts': {}, 'agent_percepts': {}}
 
@@ -33,7 +36,7 @@ def initial_percepts_format(response, token):
         else:
             return event_error_format(response['message'])
     else:
-        return event_error_format('Empty simulation response. ')
+        return event_error_format(EMPTY_SIM_MESSAGE)
 
 
 def format_map_percepts_agents(map_percepts):
@@ -82,7 +85,7 @@ def percepts_format(response, token):
             return event_error_format(response['message'])
 
     else:
-        return event_error_format('Empty simulation response. ')
+        return event_error_format(EMPTY_SIM_MESSAGE)
 
 
 def end_format(response, token):
@@ -95,7 +98,7 @@ def end_format(response, token):
         else:
             return event_error_format(response['message'])
     else:
-        return event_error_format('Empty simulation response. ')
+        return event_error_format(EMPTY_SIM_MESSAGE)
 
 
 def bye_format(response, token):
@@ -108,7 +111,7 @@ def bye_format(response, token):
         else:
             return event_error_format(response['message'])
     else:
-        return event_error_format('Empty simulation response. ')
+        return event_error_format(EMPTY_SIM_MESSAGE)
 
 
 def event_error_format(message):

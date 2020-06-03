@@ -1,8 +1,8 @@
 import jwt
 import json
 import time
-from communication.controllers.manager import Manager
-from communication.helpers.asset_request_manager import AssetRequestManager
+from src.execution.communication.controllers.manager import Manager
+from src.execution.communication.helpers.asset_request_manager import AssetRequestManager
 
 
 class Controller:
@@ -19,6 +19,15 @@ class Controller:
         self.secret = internal_secret
         self.processing_actions = False
         self.match = 0
+
+        self.messages = {
+            'SIM_NOT_STARTED': 'Simulation has not started.',
+            'SIM_TERMINATED': 'Simulation already terminated.',
+            'OBJ_NOT_DICT': 'Object is not a dictionary.',
+            'TOKEN_ERROR': 'Error while adding token.',
+            'JSON_ERROR': 'Object format is not JSON.',
+            'TOKEN_MISSING': 'Object does not contain "token" as key.'
+        }
 
     def set_started(self):
         """Set the started attribute.
@@ -90,10 +99,10 @@ class Controller:
             obj = request.get_json(force=True)
 
             if not self.started:
-                return 5, 'Simulation has not started.'
+                return 5, self.messages['SIM_NOT_STARTED']
 
             if self.terminated:
-                return 5, 'Simulation already terminated.'
+                return 5, self.messages['SIM_TERMINATED']
 
             if self.start_time + self.time_limit <= time.time():
                 return 5, 'Connection time ended.'
@@ -102,7 +111,7 @@ class Controller:
                 return 5, 'All possible agents already connected.'
 
             if not isinstance(obj, dict):
-                return 4, 'Object is not a dictionary.'
+                return 4, self.messages['OBJ_NOT_DICT']
 
             token = jwt.encode(obj, 'secret', algorithm='HS256').decode('utf-8')
 
@@ -110,12 +119,12 @@ class Controller:
                 return 5, 'Agent already connected.'
 
             if not self.manager.add(token, obj, 'agent'):
-                return 0, 'Error while adding token.'
+                return 0, self.messages['TOKEN_ERROR']
 
             return 1, token
 
         except json.JSONDecodeError:
-            return 2, 'Object format is not JSON.'
+            return 2, self.messages['JSON_ERROR']
 
         except Exception as e:
             return 0, f'Unknown error: {str(e)}'
@@ -131,16 +140,16 @@ class Controller:
             obj = request.get_json(force=True)
 
             if not self.started:
-                return 5, 'Simulation has not started.'
+                return 5, self.messages['SIM_NOT_STARTED']
 
             if self.terminated:
-                return 5, 'Simulation already terminated.'
+                return 5, self.messages['SIM_TERMINATED']
 
             if not self.processing_asset_request():
                 return 5, 'There is no social asset request.'
 
             if not isinstance(obj, dict):
-                return 4, 'Object is not a dictionary.'
+                return 4, self.messages['OBJ_NOT_DICT']
 
             if 'main_token' not in obj:
                 return 3, 'The key "main_token" is not in the message.'
@@ -164,15 +173,15 @@ class Controller:
                 return 5, 'Social asset already connected.'
 
             if not self.manager.add(token, agent_info, 'social_asset'):
-                return 0, 'Error while adding token.'
+                return 0, self.messages['TOKEN_ERROR']
 
             if not self.asset_request_manager.add_asset_token(main_token, token):
-                return 0, 'Error while adding token.'
+                return 0, self.messages['TOKEN_ERROR']
 
             return 1, token
 
         except json.JSONDecodeError:
-            return 2, 'Object format is not JSON.'
+            return 2, self.messages['JSON_ERROR']
 
         except Exception as e:
             return 0, f'Unknown error: {str(e)}'
@@ -187,19 +196,19 @@ class Controller:
 
         try:
             if not self.started:
-                return 5, 'Simulation has not started.'
+                return 5, self.messages['SIM_NOT_STARTED']
 
             if self.terminated:
-                return 5, 'Simulation already terminated.'
+                return 5, self.messages['SIM_TERMINATED']
 
             if self.start_time + self.time_limit <= time.time():
                 return 5, 'Connection time ended.'
 
             if not isinstance(request, dict):
-                return 4, 'Object is not a dictionary.'
+                return 4, self.messages['OBJ_NOT_DICT']
 
             if 'token' not in request:
-                return 3, 'Object does not contain "token" as key.'
+                return 3, self.messages['TOKEN_MISSING']
 
             agent = self.manager.get(request['token'], 'agent')
 
@@ -213,12 +222,12 @@ class Controller:
                 return 5, 'Socket already registered.'
 
             if not self.manager.add(request['token'], sid, 'socket'):
-                return 0, 'Error while adding token.'
+                return 0, self.messages['TOKEN_ERROR']
 
             return 1, request['token']
 
         except json.JSONDecodeError:
-            return 2, 'Object format is not JSON.'
+            return 2, self.messages['JSON_ERROR']
 
         except Exception as e:
             return 0, f'Unknown error: {str(e)}'
@@ -233,19 +242,19 @@ class Controller:
 
         try:
             if not self.started:
-                return 5, 'Simulation has not started.'
+                return 5, self.messages['SIM_NOT_STARTED']
 
             if self.terminated:
-                return 5, 'Simulation already terminated.'
+                return 5, self.messages['SIM_TERMINATED']
 
             if not self.processing_asset_request():
                 return 5, 'There is no social asset request.'
 
             if not isinstance(request, dict):
-                return 4, 'Object is not a dictionary.'
+                return 4, self.messages['OBJ_NOT_DICT']
 
             if 'token' not in request:
-                return 3, 'Object does not contain "token" as key.'
+                return 3, self.messages['TOKEN_MISSING']
 
             social_asset = self.manager.get(request['token'], 'social_asset')
             if social_asset is None:
@@ -258,14 +267,14 @@ class Controller:
                 return 5, 'Socket already registered.'
 
             if not self.manager.add(request['token'], sid, 'socket'):
-                return 0, 'Error while adding token.'
+                return 0, self.messages['TOKEN_ERROR']
 
             main_token = self.asset_request_manager.get_main_token(request['token'])
 
             return 1, (main_token, request['token'])
 
         except json.JSONDecodeError:
-            return 2, 'Object format is not JSON.'
+            return 2, self.messages['JSON_ERROR']
 
         except Exception as e:
             return 0, f'Unknown error: {str(e)}'
@@ -282,16 +291,16 @@ class Controller:
             obj = json.loads(msg)
 
             if not self.started:
-                return 5, 'Simulation has not started.'
+                return 5, self.messages['SIM_NOT_STARTED']
 
             if self.terminated:
-                return 5, 'Simulation already terminated.'
+                return 5, self.messages['SIM_TERMINATED']
 
             if not isinstance(obj, dict):
-                return 4, 'Object is not a dictionary.'
+                return 4, self.messages['OBJ_NOT_DICT']
 
             if 'token' not in obj:
-                return 3, 'Object does not contain "token" as key.'
+                return 3, self.messages['TOKEN_MISSING']
 
             if self.manager.get(obj['token'], 'socket') is None:
                 return 5, 'Socket was not connected.'
@@ -302,7 +311,7 @@ class Controller:
             return 1, obj['token']
 
         except json.JSONDecodeError:
-            return 2, 'Object format is not JSON.'
+            return 2, self.messages['JSON_ERROR']
 
         except Exception as e:
             return 0, f'Unknown error: {str(e)}'
@@ -319,16 +328,16 @@ class Controller:
             obj = json.loads(msg)
 
             if not self.started:
-                return 5, 'Simulation has not started.'
+                return 5, self.messages['SIM_NOT_STARTED']
 
             if self.terminated:
-                return 5, 'Simulation already terminated.'
+                return 5, self.messages['SIM_TERMINATED']
 
             if not isinstance(obj, dict):
-                return 4, 'Object is not a dictionary.'
+                return 4, self.messages['OBJ_NOT_DICT']
 
             if 'token' not in obj:
-                return 3, 'Object does not contain "token" as key.'
+                return 3, self.messages['TOKEN_MISSING']
 
             if self.manager.get(obj['token'], 'socket') is None:
                 return 5, 'Socket was not connected.'
@@ -339,7 +348,7 @@ class Controller:
             return 1, obj['token']
 
         except json.JSONDecodeError:
-            return 2, 'Object format is not JSON.'
+            return 2, self.messages['JSON_ERROR']
 
         except Exception as e:
             return 0, f'Unknown error: {str(e)}'
@@ -381,10 +390,10 @@ class Controller:
             obj = json.loads(request)
 
             if not self.started:
-                return 5, 'Simulation has not started.'
+                return 5, self.messages['SIM_NOT_STARTED']
 
             if self.terminated:
-                return 5, 'Simulation already terminated.'
+                return 5, self.messages['SIM_TERMINATED']
 
             if self.processing_actions:
                 return 5, 'Simulation is processing previous actions.'
@@ -393,10 +402,10 @@ class Controller:
                 return 5, 'Simulation still receiving agent connections.'
 
             if not isinstance(obj, dict):
-                return 4, 'Object is not a dictionary.'
+                return 4, self.messages['OBJ_NOT_DICT']
 
             if 'token' not in obj:
-                return 3, 'Object does not contain "token" as key.'
+                return 3, self.messages['TOKEN_MISSING']
 
             if 'action' not in obj:
                 return 3, 'Object does not contain "action" as key.'

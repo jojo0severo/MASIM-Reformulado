@@ -1,3 +1,4 @@
+import time
 import requests
 import json
 import socketio
@@ -53,7 +54,7 @@ def test_cycle():
     socket.connect('http://127.0.0.1:12345')
     connect_asset()
     while wait:
-        pass
+        time.sleep(0.2)
 
     socket.disconnect()
     assert all(responses)

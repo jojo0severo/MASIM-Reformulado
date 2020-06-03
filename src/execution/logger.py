@@ -1,4 +1,4 @@
-from simulation_engine.exceptions.exceptions import FailedSingleton
+from src.execution.simulation_engine.exceptions.exceptions import FailedSingleton
 
 
 class Logger:

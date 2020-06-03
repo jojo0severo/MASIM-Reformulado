@@ -1,5 +1,5 @@
 import time
-from communication.objects.social_asset import SocialAsset
+from src.execution.communication.objects.social_asset import SocialAsset
 
 
 class SocialAssetsManager:

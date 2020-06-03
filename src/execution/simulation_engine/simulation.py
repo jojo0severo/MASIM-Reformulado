@@ -1,5 +1,5 @@
-from simulation_engine.simulation_helpers.cycle import Cycle
-from simulation_engine.simulation_helpers.logger import Logger
+from src.execution.simulation_engine.simulation_helpers.cycle import Cycle
+from execution.logger import Logger
 
 
 class Simulation:

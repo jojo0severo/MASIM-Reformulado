@@ -1,8 +1,10 @@
+import time
 import requests
 import json
 import socketio
 
 
+URL = 'http://127.0.0.1:12345/send_action'
 asset = {'name': 'virtual_action_test'}
 wait = True
 responses = []
@@ -23,7 +25,7 @@ def connect_asset():
 @socket.on('simulation_started')
 def simulation_started(msg):
     photo_loc = get_photo_loc(msg)
-    requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'move', 'parameters': photo_loc}))
+    requests.post(URL, json=json.dumps({'token': token, 'action': 'move', 'parameters': photo_loc}))
 
 
 def get_photo_loc(msg):
@@ -63,16 +65,16 @@ def action_result(msg):
 
         elif not got:
             got = True
-            requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'takePhoto', 'parameters': []}))
+            requests.post(URL, json=json.dumps({'token': token, 'action': 'takePhoto', 'parameters': []}))
 
         elif got and msg['social_asset']['last_action'] == 'move':
-            requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'deliverVirtual', 'parameters': ['photo']}))
+            requests.post(URL, json=json.dumps({'token': token, 'action': 'deliverVirtual', 'parameters': ['photo']}))
 
         elif got:
-            requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'move', 'parameters': ['cdm']}))
+            requests.post(URL, json=json.dumps({'token': token, 'action': 'move', 'parameters': ['cdm']}))
 
     else:
-        requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'move', 'parameters': []}))
+        requests.post(URL, json=json.dumps({'token': token, 'action': 'move', 'parameters': []}))
 
 
 @socket.on('simulation_ended')
@@ -90,7 +92,7 @@ def test_cycle():
     socket.connect('http://127.0.0.1:12345')
     connect_asset()
     while wait:
-        pass
+        time.sleep(0.2)
 
     socket.disconnect()
     assert all(responses)

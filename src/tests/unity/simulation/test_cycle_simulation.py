@@ -11,11 +11,11 @@ if str(engine_path.absolute()) not in sys.path:
 
 import json
 from src.execution.simulation_engine.simulation_helpers.cycle import Cycle
-from src.execution.simulation_engine.exceptions.exceptions import FailedNoRoute
 
 config_path = pathlib.Path(__file__).parent / 'simulation_tests_config.json'
 config_json = json.load(open(config_path, 'r'))
 cycle = Cycle(config_json, False, False)
+
 
 class Item:
     def __init__(self, size, type, identifier):
@@ -99,14 +99,6 @@ def test_update_steps():
 
     assert old_period != new_period
 
-#
-# def test_nothing_just_setup_for_pytest():
-#     cycle.restart(config_json, False, False)
-#     for i in range(10):
-#         cycle.current_step = i
-#         cycle.activate_step()
-#         cycle.update_steps()
-#
 
 def test_check_abilities_and_resources():
     assert cycle._check_abilities_and_resources('token_agent1', 'move')

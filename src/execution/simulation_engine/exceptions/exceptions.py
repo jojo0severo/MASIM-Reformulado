@@ -146,3 +146,13 @@ class FailedSingleton(Exception):
 
     def __str__(self):
         return 'FailedParameterType: ' + self.message
+
+
+class FailedUserToken(Exception):
+
+    def __init__(self, message):
+        self.message = message
+        self.identifier = 'parameterType'
+
+    def __str__(self):
+        return 'FailedParameterType: ' + self.message

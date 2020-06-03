@@ -1,8 +1,10 @@
+import time
 import requests
 import json
 import socketio
 
 
+URL = 'http://127.0.0.1:12345/send_action'
 asset = {'name': 'water_action_test'}
 wait = True
 responses = []
@@ -23,7 +25,7 @@ def connect_asset():
 @socket.on('simulation_started')
 def simulation_started(msg):
     water_loc = get_water_loc(msg)
-    requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'move', 'parameters': water_loc}))
+    requests.post(URL, json=json.dumps({'token': token, 'action': 'move', 'parameters': water_loc}))
 
 
 def get_water_loc(msg):
@@ -60,10 +62,10 @@ def action_result(msg):
             socket.emit('disconnect_registered_asset', data=json.dumps({'token': token}), callback=quit_program)
 
         else:
-            requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'collectWater', 'parameters': []}))
+            requests.post(URL, json=json.dumps({'token': token, 'action': 'collectWater', 'parameters': []}))
 
     else:
-        requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': 'move', 'parameters': []}))
+        requests.post(URL, json=json.dumps({'token': token, 'action': 'move', 'parameters': []}))
 
 
 @socket.on('simulation_ended')
@@ -81,7 +83,7 @@ def test_cycle():
     socket.connect('http://127.0.0.1:12345')
     connect_asset()
     while wait:
-        pass
+        time.sleep(0.2)
 
     socket.disconnect()
     assert all(responses)

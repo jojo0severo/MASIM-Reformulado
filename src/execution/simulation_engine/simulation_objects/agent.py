@@ -1,4 +1,6 @@
-from simulation_engine.exceptions.exceptions import *
+from src.execution.simulation_engine.exceptions.exceptions import FailedCapacity
+from src.execution.simulation_engine.exceptions.exceptions import FailedItemAmount
+from src.execution.simulation_engine.exceptions.exceptions import FailedUnknownItem
 
 
 class Agent:
@@ -95,10 +97,9 @@ class Agent:
 
         found_item = None
         for stored_item in self.physical_storage_vector:
-            if stored_item.type == 'agent' or stored_item.type == 'asset':
-                if stored_item.token == token:
-                    found_item = stored_item
-                    break
+            if (stored_item.type == 'agent' or stored_item.type == 'asset') and stored_item.token == token:
+                found_item = stored_item
+                break
 
         if found_item is None:
             raise FailedUnknownItem('The agent has no other agent to wants be delivered.')

@@ -9,7 +9,12 @@ engine_path = pathlib.Path(__file__).parents[3] / 'execution'
 if str(engine_path.absolute()) not in sys.path:
     sys.path.insert(1, str(engine_path.absolute()))
 
-from src.execution.communication.helpers.json_formatter import *
+from execution.communication.helpers.json_formatter import bye_format
+from execution.communication.helpers.json_formatter import end_format
+from execution.communication.helpers.json_formatter import event_error_format
+from execution.communication.helpers.json_formatter import format_map_percepts_agents
+from execution.communication.helpers.json_formatter import initial_percepts_format
+from execution.communication.helpers.json_formatter import percepts_format
 
 
 def test_initial_percepts_format():

@@ -4,7 +4,7 @@ import time
 from datetime import date
 from flask import request
 from flask_restful import Resource, abort
-from monitor_engine.controllers.monitor_manager import MonitorManager
+from src.execution.monitor_engine.controllers.monitor_manager import MonitorManager
 
 monitor_manager = MonitorManager()
 
@@ -88,6 +88,8 @@ class SimulationManager(Resource):
 
 
 class MatchStepManager(Resource):
+    MATCH_NOT_FOUND = 'Match not found.'
+
     def get(self, match, step=None):
         if monitor_manager.check_match_id(match):
             if step is not None:
@@ -96,7 +98,7 @@ class MatchStepManager(Resource):
 
                 abort(404, message='The current match dont have this step yet.')
             abort(404, message='The step id is required to complete this request.')
-        abort(404, message='Match not found.')
+        abort(404, message=self.MATCH_NOT_FOUND)
 
     def post(self, match, step=None):
         if monitor_manager.check_match_id(match):
@@ -111,10 +113,12 @@ class MatchStepManager(Resource):
 
                 abort(404, message='The current match dont have this step yet.')
             abort(404, message='Change step is not a valid operation.')
-        abort(404, message='Match not found.')
+        abort(404, message=self.MATCH_NOT_FOUND)
 
 
 class MatchInfoManager(Resource):
+    MATCH_NOT_FOUND = 'Match not found.'
+
     def get(self, match, id_attribute):
         if monitor_manager.check_match_id(match):
             if id_attribute == 'report':
@@ -134,7 +138,7 @@ class MatchInfoManager(Resource):
 
             else:
                 abort(404, message=f'Attribute {id_attribute} is not a valid attribute.')
-        abort(404, message=f'Match not found.')
+        abort(404, message=self.MATCH_NOT_FOUND)
 
     def post(self, match, id_attribute):
         if id_attribute == 'report':
@@ -157,4 +161,4 @@ class MatchInfoManager(Resource):
 
         else:
             abort(404, message=f'Attribute {id_attribute} is not a valid attribute.')
-        abort(404, message='Match not found.')
+        abort(404, message=self.MATCH_NOT_FOUND)

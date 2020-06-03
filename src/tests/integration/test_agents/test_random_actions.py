@@ -37,13 +37,11 @@ def pass_action(msg):
 
 @socket.on('percepts')
 def action_result(msg):
-    msg = json.loads(msg)
-
     try:
         action = random.choice(actions)
         socket.emit('send_action', json.dumps({'token': token, 'action': action, 'parameters': []}))
         responses.append(True)
-    except:
+    except Exception:
         responses.append(False)
 
 

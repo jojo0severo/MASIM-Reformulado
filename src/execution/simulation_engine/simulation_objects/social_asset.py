@@ -1,4 +1,6 @@
-from simulation_engine.exceptions.exceptions import *
+from src.execution.simulation_engine.exceptions.exceptions import FailedCapacity
+from src.execution.simulation_engine.exceptions.exceptions import FailedItemAmount
+from src.execution.simulation_engine.exceptions.exceptions import FailedUnknownItem
 
 
 class SocialAsset:
@@ -124,7 +126,7 @@ class SocialAsset:
 
         found_item = None
         for stored_item in self.physical_storage_vector:
-            if stored_item.type == 'agent' or stored_item.type == 'asset' and stored_item.token == token:
+            if (stored_item.type == 'agent' or stored_item.type == 'asset') and stored_item.token == token:
                 found_item = stored_item
                 break
 

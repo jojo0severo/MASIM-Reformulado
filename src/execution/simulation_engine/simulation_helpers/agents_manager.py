@@ -1,5 +1,5 @@
 from collections import namedtuple
-from simulation_engine.simulation_objects.agent import Agent
+from src.execution.simulation_engine.simulation_objects.agent import Agent
 
 Role = namedtuple('Role', 'abilities resources size name battery battery_by_movement speed physical_capacity virtual_capacity')
 

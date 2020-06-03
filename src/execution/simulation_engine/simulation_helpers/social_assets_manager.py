@@ -1,6 +1,6 @@
 import random
 from collections import namedtuple
-from simulation_engine.simulation_objects.social_asset import SocialAsset
+from src.execution.simulation_engine.simulation_objects.social_asset import SocialAsset
 
 
 Capacities = namedtuple('Capacities', 'abilities resources location profession size speed physical_capacity virtual_capacity')

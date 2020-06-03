@@ -1,3 +1,4 @@
+import time
 import requests
 import json
 import socketio
@@ -35,7 +36,7 @@ def action_result(msg):
         requests.post('http://127.0.0.1:12345/send_action', json=json.dumps({'token': token, 'action': action, 'parameters': []}))
         responses.append(True)
 
-    except:
+    except Exception:
         responses.append(False)
 
 
@@ -54,7 +55,7 @@ def test_cycle():
     socket.connect('http://127.0.0.1:12345')
     connect_asset()
     while wait:
-        pass
+        time.sleep(0.2)
 
     socket.disconnect()
     assert all(responses)
