@@ -10,7 +10,7 @@ if str(engine_path.absolute()) not in sys.path:
     sys.path.insert(1, str(engine_path.absolute()))
 
 import time
-from src.execution.communication.controllers.controller import Controller
+from src.execution.communication.controllers.api_controller import Controller
 
 
 class RequestMock:

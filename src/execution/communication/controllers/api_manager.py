@@ -1,7 +1,7 @@
-from src.execution.communication.helpers.agents_manager import AgentsManager
-from src.execution.communication.helpers.social_assets_manager import SocialAssetsManager
-from src.execution.communication.helpers.sockets_manager import SocketsManager
-from src.execution.communication.helpers.monitor_manager import MonitorManager
+from src.execution.communication.helpers.api_agents_manager import AgentsManager
+from src.execution.communication.helpers.api_social_assets_manager import SocialAssetsManager
+from src.execution.communication.helpers.api_sockets_manager import SocketsManager
+from src.execution.communication.helpers.api_monitor_manager import MonitorManager
 
 
 class Manager:

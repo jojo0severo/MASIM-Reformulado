@@ -18,8 +18,8 @@ from multiprocessing import Queue
 from flask_socketio import SocketIO
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_restful import Api
-from src.execution.communication.controllers.controller import Controller
-from src.execution.communication.helpers import json_formatter
+from src.execution.communication.controllers.api_controller import Controller
+from src.execution.communication.helpers import api_json_formatter
 from src.execution.simulation_engine.json_formatter import JsonFormatter
 from src.execution.logger import Logger
 from src.execution.monitor_engine.controllers.monitor_manager import MonitorManager
@@ -576,7 +576,7 @@ def send_initial_percepts(token, info):
     The message contain the agent and map percepts."""
 
     room = controller.manager.get(token, 'socket')
-    response = json_formatter.initial_percepts_format(info, token)
+    response = api_json_formatter.initial_percepts_format(info, token)
     socket.emit(initial_percepts_event, response, room=room)
 
 
@@ -586,22 +586,22 @@ def notify_monitor(event, response):
     Logger.normal('Updating monitor.')
 
     if event == initial_percepts_event:
-        info = json_formatter.initial_percepts_monitor_format(response)
+        info = api_json_formatter.initial_percepts_monitor_format(response)
         monitor_manager.add_match(info)
 
     elif event == percepts_event:
-        info = json_formatter.percepts_monitor_format(response)
+        info = api_json_formatter.percepts_monitor_format(response)
         match = controller.get_current_match()
         if monitor_manager.check_match_id(match):
             monitor_manager.add_match_step(match, info)
 
     elif event == end_event:
-        info = json_formatter.end_monitor_format(response)
+        info = api_json_formatter.end_monitor_format(response)
         match = controller.get_current_match()
         monitor_manager.set_match_report(match, info)
 
     elif event == bye_event:
-        info = json_formatter.end_monitor_format(response)
+        info = api_json_formatter.end_monitor_format(response)
         monitor_manager.set_sim_report(info)
 
         if record:
@@ -627,20 +627,20 @@ def notify_actors(event, response):
 
     for token in tokens:
         if event == initial_percepts_event:
-            info = json_formatter.initial_percepts_format(response, token)
+            info = api_json_formatter.initial_percepts_format(response, token)
 
         elif event == percepts_event:
-            info = json_formatter.percepts_format(response, token)
+            info = api_json_formatter.percepts_format(response, token)
 
         elif event == end_event:
-            info = json_formatter.end_format(response, token)
+            info = api_json_formatter.end_format(response, token)
 
         elif event == bye_event:
-            info = json_formatter.bye_format(response, token)
+            info = api_json_formatter.bye_format(response, token)
 
         else:
             Logger.error('Wrong event name. Possible internal errors.')
-            info = json_formatter.event_error_format('Error in API.')
+            info = api_json_formatter.event_error_format('Error in API.')
 
         room = controller.manager.get(token, 'socket')
         room_response_list.append((room, json.dumps(info)))

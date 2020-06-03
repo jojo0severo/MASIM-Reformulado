@@ -1,8 +1,8 @@
 import jwt
 import json
 import time
-from src.execution.communication.controllers.manager import Manager
-from src.execution.communication.helpers.asset_request_manager import AssetRequestManager
+from src.execution.communication.controllers.api_manager import Manager
+from src.execution.communication.helpers.api_asset_request_manager import AssetRequestManager
 
 
 class Controller:

@@ -12,7 +12,7 @@ engine_path = pathlib.Path(__file__).parents[3] / 'execution'
 if str(engine_path.absolute()) not in sys.path:
     sys.path.insert(1, str(engine_path.absolute()))
 
-from src.execution.communication.controllers.manager import Manager
+from src.execution.communication.controllers.api_manager import Manager
 
 manager = Manager()
 token = 'token'

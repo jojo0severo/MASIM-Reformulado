@@ -10,7 +10,7 @@ if str(engine_path.absolute()) not in sys.path:
     sys.path.insert(1, str(engine_path.absolute()))
 
 
-from src.execution.communication.helpers.agents_manager import AgentsManager
+from src.execution.communication.helpers.api_agents_manager import AgentsManager
 
 manager = AgentsManager()
 
