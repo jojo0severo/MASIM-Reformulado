@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Disaster Simulator</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="">
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script type=text/javascript>
+        $SCRIPT_ROOT={{ request.script_root|tojson|safe }};
+    </script>
+
+    <style>
+        #log {
+            resize:vertical;
+        }
+
+        #abutton {
+            margin-top: 5px;
+            margin-left: 6.8px;
+            font-family: Arial, Verdana, Tahoma, sans-serif;
+            width: 274.1px;
+            height: 14px;
+            text-decoration: none;
+            display: block;
+            color: black;
+            font-size: 13.3px;
+            background: #f0f0f0;
+            padding: 7px;
+            text-align: center;
+        }
+    </style>
+</head> 
+<body, style="color: black;">
+	<div id="container", style="background-color: black;">
+            <!-- Simulation box div -->
+            <div id="simulation-box">
+                <h3 class="title", style="color: #f0f0f0;">Simulation Data</h3>
+        
+                <div id="simulation-info">
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">Simulation url: </label>
+                        <label id="simulation-url", style="color: #f0f0f0;"></label >
+                    </div>
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">Api url: </label>
+                        <label id="api-url", style="color: #f0f0f0;"></label >
+                    </div>
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">Max agent amount: </label>
+                        <label id="max-agents", style="color: #f0f0f0;"></label >
+                    </div>
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">First step time: </label>
+                        <label id="first-step-time", style="color: #f0f0f0;"></label >
+                    </div>
+                    <div class="key-value", style="color: #f0f0f0;">
+                        <label, style="color: #f0f0f0;">Time per step: </label>
+                        <label id="step-time", style="color: #f0f0f0;"></label >
+                    </div>
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">Social asset timeout: </label>
+                        <label id="social-asset-timeout", style="color: #f0f0f0;"></label >
+                    </div>
+                </div>
+        
+                <h3 class="title" style="color: #f0f0f0;">Current Data</h3>
+                  
+                <div id="current-info">
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">Step: </label>
+                        <label id="step">NULL</label >
+                    </div>
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">Match: </label>
+                        <label id="current-match"style="color: #f0f0f0;">NULL</label >
+                    </div>
+                    <div class="key-value">
+                        <label, style="color: #f0f0f0;">Map: </label>
+                        <label id="current-map"style="color: #f0f0f0;">NULL</label >
+                    </div>
+                    <div class="key-value"style="color: #f0f0f0;">
+                        <label>Active agents: </label>
+                        <label id="active-agents", style="color: #f0f0f0;">NULL</label >
+                    </div>
+                </div>
+        
+                <br>
+                <div id="simulation-controller">
+                    <button id="btn-prev" onclick="prevStep()"> << </button>
+                    <button id="btn-pause" onclick="pause()">Pause</button>
+                    <button id="btn-next" onclick="nextStep()"> >> </button>
+                </div>
+                <br>
+
+                <div id="speed-controller">
+                    <fieldset id="speed">
+                        <legend, style="color: #f0f0f0;">Speed controller</legend>
+                        <input type="radio" name="speed" value="2000">.25x
+                        <input type="radio" name="speed" value="1500">.50x
+                        <input type="radio" name="speed" value="1000" checked=true>1x
+                        <input type="radio" name="speed" value="500">1.5x
+                        <input type="radio" name="speed" value="250">2x
+                    </fieldset>
+                </div>
+
+                <br>
+	            <div id="matchs">
+	                <button class="btn-match" id="btn-previous-match" onclick="prevMatch()">Previous match</button>
+	                <button class="btn-match" id="btn-next-match" onclick="nextMatch()">Next match</button>
+	            </div>
+
+                <div id="log-box">
+                    <button id="btn-log" onclick="setLog()">Hide log</button>
+                    <br>
+                    <a id="abutton" href="{{ url_for('download_logs') }}">Download logs</a>
+                    <br>
+                    <textarea id="log"></textarea>
+                </div>
+            </div>
+
+            <!-- Map div -->
+            <div id="mapid"></div>
+            
+            <div id="entity-box">
+                <ul id="entity-list-info"></ul>
+            </div>
+    	</div>
+        <script type="text/javascript" src="static/scripts/script.js?v=2"></script>
+    </body>
+
+</html>
