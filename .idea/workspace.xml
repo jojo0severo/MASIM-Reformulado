@@ -3,46 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0f115ece-2b46-4efe-b166-556b10856827" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/communication/controllers/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/communication/controllers/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/communication/controllers/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/communication/controllers/manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/communication/helpers/agents_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/communication/helpers/agents_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/communication/helpers/json_formatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/communication/helpers/json_formatter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/communication/helpers/social_assets_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/communication/helpers/social_assets_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/monitor_engine/controllers/monitor_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/monitor_engine/controllers/monitor_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/monitor_engine/helpers/logger.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/monitor_engine/resources/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/monitor_engine/resources/manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/copycat.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/copycat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/exceptions/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/exceptions/exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/generator/generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/json_formatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/json_formatter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/loader/loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/loader/loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/simulation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/agents_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/agents_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/cycle.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/cycle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/events_formatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/events_formatter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/social_assets_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_helpers/social_assets_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_objects/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_objects/agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_objects/social_asset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/simulation_engine/simulation_objects/social_asset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_agents/test_random_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_agents/test_random_actions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_agents_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_agents_actions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_analyze_photo_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_analyze_photo_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_carry_asset_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_carry_asset_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_carry_asset_asset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_carry_asset_asset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_collect_water_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_collect_water_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_deliver_physical_cdm_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_deliver_physical_cdm_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_deliver_virtual_cdm_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_deliver_virtual_cdm_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_move_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_move_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_pass_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_pass_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_random_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_random_actions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_rescue_victim_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_rescue_victim_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_search_social_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_search_social_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_take_photo_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/integration/test_social_assets/test_take_photo_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/unity/api/test_json_formatter_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/unity/api/test_json_formatter_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/unity/simulation/test_agents_manager_simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/unity/simulation/test_agents_manager_simulation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/unity/simulation/test_assets_manager_simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/unity/simulation/test_assets_manager_simulation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/unity/simulation/test_cycle_simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/unity/simulation/test_cycle_simulation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/templates/index.html" afterDir="false" />
     </list>
     <ignored mask="*.zip" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,7 +13,29 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="412">
+              <caret line="46" column="62" selection-start-line="46" selection-start-column="62" selection-end-line="46" selection-end-column="62" />
+              <folding>
+                <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/static/css/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="89">
+              <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -107,8 +90,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/tests/integration/test_agents/test_deliver_physical_agent_agent.py" />
-        <option value="$PROJECT_DIR$/src/tests/integration/test_agents/test_deliver_physical_cdm_action.py" />
         <option value="$PROJECT_DIR$/src/tests/integration/test_agents/test_deliver_virtual_agent_agent.py" />
         <option value="$PROJECT_DIR$/src/tests/integration/test_agents/test_deliver_virtual_cdm_action.py" />
         <option value="$PROJECT_DIR$/src/tests/integration/test_agents/test_move_action.py" />
@@ -158,6 +139,8 @@
         <option value="$PROJECT_DIR$/src/tests/unity/simulation/test_assets_manager_simulation.py" />
         <option value="$PROJECT_DIR$/src/tests/unity/simulation/test_json_formatter_simulation.py" />
         <option value="$PROJECT_DIR$/src/tests/unity/simulation/test_cycle_simulation.py" />
+        <option value="$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/static/scripts/darkmode.js" />
+        <option value="$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/templates/index.html" />
       </list>
     </option>
   </component>
@@ -173,6 +156,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -189,28 +173,65 @@
               <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
               <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
               <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="unity" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="monitor_engine" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
               <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="unity" type="462c0819:PsiDirectoryNode" />
-              <item name="simulation" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="monitor_engine" type="462c0819:PsiDirectoryNode" />
+              <item name="graphic_interface" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="monitor_engine" type="462c0819:PsiDirectoryNode" />
+              <item name="graphic_interface" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="monitor_engine" type="462c0819:PsiDirectoryNode" />
+              <item name="graphic_interface" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="monitor_engine" type="462c0819:PsiDirectoryNode" />
+              <item name="graphic_interface" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="scripts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MASIM-Manutenção" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MASIM-Manutenção" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="execution" type="462c0819:PsiDirectoryNode" />
+              <item name="monitor_engine" type="462c0819:PsiDirectoryNode" />
+              <item name="graphic_interface" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -222,7 +243,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MASIM-Reformulado-269a2e537a0f4dd9e05690478da62d7c5db82c13" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../7-algoritmos-gulosos-problemas-do-troco-time2_joao_severo_rafael_resende" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
@@ -314,7 +335,9 @@
       <workItem from="1590529888906" duration="2552000" />
       <workItem from="1591131329045" duration="6490000" />
       <workItem from="1591166922997" duration="342000" />
-      <workItem from="1591167374724" duration="3597000" />
+      <workItem from="1591167374724" duration="4339000" />
+      <workItem from="1591432466975" duration="128000" />
+      <workItem from="1591628291849" duration="4017000" />
     </task>
     <task id="LOCAL-00001" summary="Removed simulation API.&#10;&#10;Both simulation and api are the same now. Monitor is next.">
       <created>1585511630805</created>
@@ -533,27 +556,42 @@
       <option name="project" value="LOCAL" />
       <updated>1591141843276</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Code smells...">
+      <created>1591171039455</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1591171039455</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Renamed file duplication">
+      <created>1591171308119</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1591171308119</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31732000" />
+    <option name="totallyTimeSpent" value="36619000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24128686" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24798928" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32531825" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.39321074" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.39321074" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.37199435" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.60678923" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.5473833" />
@@ -602,8 +640,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Removed simulation file" />
-    <MESSAGE value="Updated .gitignore" />
     <MESSAGE value="Merged monitor into API class" />
     <MESSAGE value="Code style" />
     <MESSAGE value="Removing unnecessary files" />
@@ -627,7 +663,9 @@
     <MESSAGE value="Added global variables" />
     <MESSAGE value="Renamed variable" />
     <MESSAGE value="Reduced complexity" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reduced complexity" />
+    <MESSAGE value="Code smells..." />
+    <MESSAGE value="Renamed file duplication" />
+    <option name="LAST_COMMIT_MESSAGE" value="Renamed file duplication" />
   </component>
   <component name="WindowStateProjectService">
     <state x="372" y="391" key="com.intellij.ide.util.TipDialog" />
@@ -644,40 +682,10 @@
     <state x="2327" y="239" width="672" height="678" key="search.everywhere.popup/67.27.1299.741/1366.0.1920.1080@1366.0.1920.1080" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MASIM_Manutenção$start_system.coverage" NAME="start_system Coverage Results" MODIFIED="1591169748507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MASIM_Manutenção$start_system.coverage" NAME="start_system Coverage Results" MODIFIED="1591632462785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MASiRe$start_system.coverage" NAME="start_system Coverage Results" MODIFIED="1590521325268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/test_pass_action.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="65" column="22" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/test_rescue_victim_action.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="89" column="22" selection-start-line="89" selection-start-column="22" selection-end-line="89" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/test_search_social_action.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="62" column="22" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/tests/integration/test_agents/test_take_photo_action.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
@@ -688,21 +696,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/social_assets_manager.py">
+    <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/api_social_assets_manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
           <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/agents_manager.py">
+    <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/api_agents_manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
           <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/communication/controllers/manager.py">
+    <entry file="file://$PROJECT_DIR$/src/execution/communication/controllers/api_manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
           <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
@@ -772,14 +780,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/json_formatter.py">
+    <entry file="file://$PROJECT_DIR$/src/execution/communication/helpers/api_json_formatter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
           <caret line="116" column="4" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/communication/controllers/controller.py">
+    <entry file="file://$PROJECT_DIR$/src/execution/communication/controllers/api_controller.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="28" column="69" selection-start-line="28" selection-start-column="69" selection-end-line="28" selection-end-column="69" />
@@ -796,13 +804,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/execution/monitor_engine/helpers/logger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="48" lean-forward="true" selection-end-line="54" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/monitor_engine/helpers/logger.py" />
     <entry file="file://$PROJECT_DIR$/src/execution/logger.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="621">
@@ -1075,6 +1077,30 @@
           <caret line="23" column="27" lean-forward="true" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/static/scripts/darkmode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/static/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/execution/monitor_engine/graphic_interface/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="46" column="62" selection-start-line="46" selection-start-column="62" selection-end-line="46" selection-end-column="62" />
+          <folding>
+            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
